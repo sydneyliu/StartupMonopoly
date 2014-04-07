@@ -21,7 +21,7 @@ The Future:
 -- Jack Dorsey (represented by D)
 -- Elon Musk (represented by M)
 
-Game Objective
+Game Objective:
 ***************
 
 The characters go through the startup process and with a little help of luck to beat out the other startups and become a billion dollar company.
