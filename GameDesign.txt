@@ -1,0 +1,134 @@
+Name: Startup Race - The Game of Old and New
+********************************************
+SEE BELOW FOR GAME DESIGN
+
+Characters:
+***********
+Hall of Famers:
+-- Andrew Carnegie (represented by A)
+-- John Rockefeller (represented by R)
+-- Jim Clark (represented by C)
+
+Living Legends:
+-- Steve Jobs (represented by J)
+-- Bill Gates (Represented by G)
+-- Larry Page (represented by P)
+-- Richard Branson (represented by B)
+-- Warren Buffet (represented by W)
+
+The Future:
+-- Mark Zuckerberg (represented by Z)
+-- Jack Dorsey (represented by D)
+-- Elon Musk (represented by M)
+
+Game Objective
+***************
+
+The characters go through the startup process and with a little help of luck to beat out the other startups and become a billion dollar company.
+
+There are 10 customer cards total. Companies lose when they have no company cards or no money. Your mission is to be the last company standing or reach 1 billion dollars.
+
+Game Rules
+**********
+Each company starts with 2 customer cards each and 1.5 million dollars in the bank.
+
+Players roll a die to move around the board and collect advisors, funding, etc. along the way.
+
+The player with the most customer cards (must be a sole leader) gets to move twice a turn.
+
+Metrics:
+--Company Score: A general rating for the company based on money, product, growth, etc. Scale of 1-10
+--Money: The money in the bank (from investments and sales). Kept track in hundreds of thousand of dollars
+
+Every turn there is an opportunity to launch a new product if the players choose to. Product launches cost (1 million dollars * # of previous products * 10) but allow for growth and profit in future rounds.
+
+Every 5 turns there is a demo day where players meet investors. The probability of getting an investment increases as the company score increases.
+
+If a player's company is worth 10 times another company, it can choose to acquire the company. An acquisition means the player gets all customer cards the other company owns as well as any products.
+
+
+At 30 turns, the top 50% of companies go IPO. Money in the bank doubles for each company that goes IPO.
+*************************************************************
+
+GAMEDESIGN WRITEUP
+
+System Name: main.cpp --Startup Monopoly
+
+System Description: See the rules above for more detail. This is a game similar to monopoly that follows the early years of a startup.
+
+Global Data:
+
+-NumSpaces : Shows the number of squares on the gameboard
+-player_num: The number of players in the game. Pulled from the user
+-*players: Instance of the Player class, dynamically allocated later for all the players
+-*spaces: Instance of the Space class, dynamically allocated later for the spaces on the game board
+-Characters[]: The characters on the gameboard.
+
+Class Description:
+
+-Class: Space
+	-represents the space on the gameboard. Used to store info about each individual space
+	-Space(): constructor, does some basic things
+	-pieces[4]: For displaying the pieces on the square
+	-ChangeOwner(char): racks the owner of the space
+		-takes a char, for the name of the owner
+	-AddActions(string, string, string): Adds the actions into the Actions
+	-printedName: public name for use of printing
+	-printedOwner: makes it easy to pring the owner
+	-printedAction1-3: Makes printing of Actions easy
+	-name: private, the name of the space
+	-Actions: private, the name of the actual actions (feeds into the printed version)
+	-owner: tracks the owner of the space
+
+-Class: Action
+	-string text[3]: holds the actions
+	- in the future will show implementation of the actions
+-Class: Player
+	-currentSpace: tracks current location of the player
+	-nameChange(char): changes name to the char
+	-moneymove(int): moves the money (increases or decreases. Currently not implemented)
+	-customermove(int): increases the customers or decreases the customers
+	-Lost(): A function to turn players who have lost off
+	-name: name of the player
+	-move(Space, Space, int, int): increments the position so that it will track the updated position after each die roll.
+	-cash: the amount of money left in the bank
+	-customer: the number of customer cards left (that the person has)
+	-playing: a boolean that represents whether or not the person is still playing the game.
+
+
+FUNCTIONS (in main.cpp):
+
+-int dice();
+	-returns an int
+	-the value of a random number generated from 1-6
+-void printBoard();
+	-prints the Board and all the variables in the Board
+	-couts all the outlines of the Board
+-void PrintIncompleteRow(int start, int end, bool Bottom)
+	-inputs where the rows should start and end
+	-the boolean is used to determine whether if the bottom needs dashes.
+	-prints rows with holes in the middle
+-void printCompleteRow(int start, int end)
+	-prints the complete rows (rows with no holes)
+	-start and end determine the count for the squares
+-void pieceSelection()
+	-does piece selection for the user
+	-prompts user to select, pulls fro mthe characters
+-void CheckPlayers()
+	-checks how many players there are. 2-4
+	- fails if they aren't. Will put players into an array
+-void intro();
+	-does basic output for the introduction to the game
+	-does the entire introduction
+-void SpecificSpaces();
+	-Hards codes the details (actions, names, etc.)
+-void GameRounds()
+	-integrates the various functions to print out the board, move the players, and shows details
+	-the die gives a random number that integrates with it.
+	-pauses the program before each roll to allow users to interact
+
+COMPILING AND TESTING
+
+Type: make to compiles the program.
+
+Run by running main. Type: ./main
