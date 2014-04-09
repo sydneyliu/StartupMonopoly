@@ -21,6 +21,7 @@ class Player {
 		int cash; //amount of money left in the bank, in hundred of thousand of dollars
 		int customer; //number of customer cards left
 		bool playing; //is the player still playing the game?
+		int companyscore; //company's score
 };
 
 #endif

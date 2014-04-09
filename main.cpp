@@ -20,6 +20,8 @@ void intro(); //introduction to the game
 void SpecificSpaces(); //HardCodes info into the Spaces
 void GameRounds(); //Goes through the rounds of the game
 void declareWinners(); //checks if any of the players have won. If they have, ends the game.
+void DemoDay(); //demo day every 5 turns
+void Acquisition(int, int); //if a company has 10x the amount another company does, an acquistion can happen
 
 //*****************GLOBAL VARIABLES******************************
 const int NumSpaces = 40; //the number of spaces there are on the board
@@ -28,6 +30,7 @@ Player *players; //later to be dynamically allocated. Tracks number of players
 Space *spaces; //later to be dynamically allocated. Tracks the number of spaces
 char Characters[]= {'A', 'R', 'C', 'J', 'G', 'P', 'B', 'W', 'Z', 'D', 'M', '\0'};
 int winnerOVER=0; //if = to 1, the game is over and a winner has been declared!
+int rounds = 0; //keeps track of the number of turns that go by.
 
 //**********************************************************************
 //********************MAIN**********************************************
@@ -184,6 +187,10 @@ void GameRounds() {
 	int die;
 	bool switcher=true;
 	while(switcher) {
+		rounds++; //keeps track of the number of rounds
+		if ((rounds%5) == 0) { //DEMO DAYS every 5 rounds
+			DemoDay();
+		}
 		for(int i=0; i<player_num; i++) {
 			cout <<"Player "<< i+1<< "'s move. Hit enter to roll the die or type Q to quit. ";
 			string enternow;
@@ -210,6 +217,11 @@ void GameRounds() {
 			if (winnerOVER==1) { //if a winner is found
 				switcher = false; //breaks out of the loop
 			}
+			if (1 > 2) {
+				int x; //larger company
+				int y; //smaller company
+				Acquisition(x, y);
+			}
 		}
 	}
 
@@ -232,6 +244,23 @@ void declareWinners() { //checks for the winners
 		} //for loop to check who the winner is.
 	}
 } //end of declareWinners
+
+
+void DemoDay() {
+	for (int i=0; i<50; i++) {
+		cout << "*";
+	}
+	cout << endl;
+	cout << "****************** DEMO DAY *********************" << endl;
+	cout << endl;
+	cout << "All the teams have been given a great opportunity to pitch their company very few will walk out with money! \nWill it be you?"<<endl;
+	cout << endl;
+
+}
+
+void Acquistion(int a, int b) { //input the number position of the first player and the second player. a is the company doing the acquiring, b is acquired.
+
+}
 
 void printCompleteRow(int start, int end) {
 		//the TOP BAR
