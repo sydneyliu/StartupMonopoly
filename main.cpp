@@ -22,6 +22,8 @@ void GameRounds(); //Goes through the rounds of the game
 void declareWinners(); //checks if any of the players have won. If they have, ends the game.
 void DemoDay(); //demo day every 5 turns
 void Acquisition(int, int); //if a company has 10x the amount another company does, an acquistion can happen
+void setLosers(); //sets players as losers if they lose all of their customers
+void organizeLosers(); //organizes the losers so they won't get a turn anymore in the game
 
 //*****************GLOBAL VARIABLES******************************
 const int NumSpaces = 40; //the number of spaces there are on the board
@@ -217,11 +219,13 @@ void GameRounds() {
 			if (winnerOVER==1) { //if a winner is found
 				switcher = false; //breaks out of the loop
 			}
-			if (1 > 2) {
+			if (1 > 2) { //if one company is 10x larger than another company
 				int x; //larger company
 				int y; //smaller company
 				Acquisition(x, y);
 			}
+			setLosers();
+			organizeLosers();
 		}
 	}
 
@@ -245,6 +249,35 @@ void declareWinners() { //checks for the winners
 	}
 } //end of declareWinners
 
+void setLosers() {
+		int temp; //tracks customers
+		int temp2; //tracks money
+	for (int i=0; i<player_num; i++) { //checks the customercards
+		temp = players[i].CustomerChecker();
+		if(temp==0) {
+			cout <<"Player " << players[i].name << " has lost and owns 0 customers now." << endl;
+			players[i].Lost();
+		}
+		temp2 = players[i].CashChecker(); //checks if there is any money in the bank.
+		if (temp2<=0) {
+			cout <<"Player " << players[i].name << " has lost and owns $0 now." << endl;
+			players[i].Lost();	
+		}
+	}
+}
+
+void organizeLosers() {//check if there are players who have lost. If so, shift the players into the correct positions.
+	int num_compare = 0;
+	for (int i=0; i<player_num; i++) {
+		num_compare+=players[i].checkLost();
+	}
+	if(num_compare!=player_num) { //this means that one of the players got their playing set to 0. we need to reorganize
+		//remove player by placing the loser it at the end of the list
+
+
+		player_num-=1; // cut short the numbers of players by 1
+	}
+}
 
 void DemoDay() {
 	for (int i=0; i<50; i++) {
@@ -254,12 +287,17 @@ void DemoDay() {
 	cout << "****************** DEMO DAY *********************" << endl;
 	cout << endl;
 	cout << "All the teams have been given a great opportunity to pitch their company very few will walk out with money! \nWill it be you?"<<endl;
+
 	cout << endl;
 
 }
 
 void Acquistion(int a, int b) { //input the number position of the first player and the second player. a is the company doing the acquiring, b is acquired.
+	cout << players[a].name << " is worth over 10x the amount that " << players[b].name << ". " << players[a].name << " now can acquire the company." << endl;
 
+	//move all the money out of b and into a
+
+	players[b].Lost();
 }
 
 void printCompleteRow(int start, int end) {
