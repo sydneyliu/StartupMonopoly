@@ -261,7 +261,7 @@ void setLosers() {
 		temp2 = players[i].CashChecker(); //checks if there is any money in the bank.
 		if (temp2<=0) {
 			cout <<"Player " << players[i].name << " has lost and owns $0 now." << endl;
-			players[i].Lost();	
+			players[i].Lost();
 		}
 	}
 }
@@ -280,6 +280,7 @@ void organizeLosers() {//check if there are players who have lost. If so, shift 
 }
 
 void DemoDay() {
+	int playerscores;
 	for (int i=0; i<50; i++) {
 		cout << "*";
 	}
@@ -287,8 +288,34 @@ void DemoDay() {
 	cout << "****************** DEMO DAY *********************" << endl;
 	cout << endl;
 	cout << "All the teams have been given a great opportunity to pitch their company very few will walk out with money! \nWill it be you?"<<endl;
-
 	cout << endl;
+	for (int i=0; i<player_num; i++) {
+		cout << "It's " << players[i].name << " turn to demo. Hit ENTER to demo.";
+		string enternow;
+		getline(cin, enternow);
+		if (enternow.empty()) { //utilizes the empty line to continue
+			enternow ="a";
+		}
+		int Demo =rand() % 100 + 1; //selects a random number from 1 to 100.
+		playerscores = players[i].ScoreChecker();
+		if (playerscores > Demo) {
+			int chance=rand()%100+1;
+			if (chance <=25) {
+				//give money
+				players[i].ImproveScore(playerscores/5);
+			} else if (chance > 25 && chance <90) {
+				//give money
+				players[i].ImproveScore(playerscores/10);
+			} else {
+				//give money
+				players[i].ImproveScore(playerscores/2);
+			}
+
+		} else {
+			players[i].ImproveScore(2);
+			cout << "Sorry, the investors at the Demo Day didn't really like you. Better luck next time!" << endl;
+		}
+	}
 
 }
 

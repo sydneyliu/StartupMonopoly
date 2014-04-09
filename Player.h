@@ -19,6 +19,8 @@ class Player {
 		int GameEnd(); //helps check if the game is over by returning the playing bool
 		int CashChecker(); //checks if the player has over 1 billion and wins the game
 		int CustomerChecker(); //checks the number of customers left
+		int ScoreChecker(); //returns the company score
+		void ImproveScore(int); //Improve the score of the company
 	private:
 		int cash; //amount of money left in the bank, in hundred of thousand of dollars
 		int customer; //number of customer cards left

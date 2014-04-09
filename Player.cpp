@@ -12,7 +12,7 @@ Player::Player() {
 	customer = 2; //the number of the customer cards that are still available
 	playing = 1; //is the player still in the game?
 	currentSpace = 0; //Stores the current space the player is on
-	companyscore = 0; //the score of the company's progress. The higher the company score, the more likely the players will get money at Demo Days
+	companyscore = 5; //the score of the company's progress. The higher the company score, the more likely the players will get money at Demo Days
 }
 
 
@@ -62,4 +62,15 @@ int Player::checkLost() { //checks if playing = 1 or 0 to see if we should give 
 int Player::CustomerChecker() { //returns the number of customer cards left
 
 	return customer;
+}
+
+int Player::ScoreChecker() {
+	return companyscore;
+}
+
+void Player::ImproveScore(int improve) {
+	companyscore+=improve;
+	if (companyscore>=100) { //ensures that 100 is the maximum a company score can be
+		companyscore=100;
+	}
 }
