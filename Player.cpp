@@ -31,3 +31,16 @@ void Player::move(Space j,Space k, int playerSpace, int steps) {
 	j.pieces[playerSpace]=' ';
 	k.pieces[playerSpace]=name;
 } 
+
+int Player::GameEnd() {
+	if(playing==0) {
+		return 0;
+	} else {
+		return 1;
+	}
+
+}
+
+int Player::CashChecker() {
+	return cash;
+}

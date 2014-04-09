@@ -19,6 +19,7 @@ void CheckPlayers(); //checks how many players there are
 void intro(); //introduction to the game
 void SpecificSpaces(); //HardCodes info into the Spaces
 void GameRounds(); //Goes through the rounds of the game
+void declareWinners(); //checks if any of the players have won. If they have, ends the game.
 
 //*****************GLOBAL VARIABLES******************************
 const int NumSpaces = 40; //the number of spaces there are on the board
@@ -26,6 +27,7 @@ int player_num; //tracks the number of players
 Player *players; //later to be dynamically allocated. Tracks number of players
 Space *spaces; //later to be dynamically allocated. Tracks the number of spaces
 char Characters[]= {'A', 'R', 'C', 'J', 'G', 'P', 'B', 'W', 'Z', 'D', 'M', '\0'};
+int winnerOVER=0; //if = to 1, the game is over and a winner has been declared!
 
 //**********************************************************************
 //********************MAIN**********************************************
@@ -204,10 +206,32 @@ void GameRounds() {
 			spaces[mover1].pieces[i]=' '; //updates the position in the board
 			spaces[mover2].pieces[i]=players[i].name;
 			cout << "Player " << i+1 << " rolled a " << die << ". Move " << die+1 << " spaces." << endl;
+			declareWinners(); //checks if any of the players have won.
+			if (winnerOVER==1) { //if a winner is found
+				switcher = false; //breaks out of the loop
+			}
 		}
 	}
 
-}	
+}
+
+void declareWinners() { //checks for the winners
+	int tracker = 0; //tracks the key numbers to check if the game is over or not.
+	int temp =0;
+	for(int i=0; i<player_num; i++) {
+		tracker += players[i].GameEnd();
+	} // end of for loop
+	if(tracker == 1) {
+		cout << "GAME IS OVER!" << endl;
+		winnerOVER = 1; //sets the game status to over. Use this to break out of all the loops
+		for (int i=0; i<player_num;i++) {
+			temp = players[i].GameEnd();
+			if(temp==1) {
+				cout << "Player " << players[i].name << " has won! CONGRATULATIONS!" << endl;
+			}
+		} //for loop to check who the winner is.
+	}
+} //end of declareWinners
 
 void printCompleteRow(int start, int end) {
 		//the TOP BAR
