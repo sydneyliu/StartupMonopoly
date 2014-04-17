@@ -74,3 +74,7 @@ void Player::ImproveScore(int improve) {
 		companyscore=100;
 	}
 }
+
+void Player::moneymove(int moneyadd) {
+	cash +=moneyadd;
+}

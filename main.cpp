@@ -24,6 +24,7 @@ void DemoDay(); //demo day every 5 turns
 void Acquisition(int, int); //if a company has 10x the amount another company does, an acquistion can happen
 void setLosers(); //sets players as losers if they lose all of their customers
 void organizeLosers(); //organizes the losers so they won't get a turn anymore in the game
+void GameProgress(); //gives an update on the progress of the game
 
 //*****************GLOBAL VARIABLES******************************
 const int NumSpaces = 40; //the number of spaces there are on the board
@@ -46,8 +47,9 @@ intro();
 CheckPlayers(); //gives the number of players playing the game
 
 //DYNAMICALLY ALLOCATE ARRAYS for the number of players and Squares
-players = new Player[player_num+1]; //player_num+1 is the 
+players = new Player[player_num+1]; //player_num+1 is the Bank
 spaces = new Space[NumSpaces]; //in this case there are 40 squares
+players[player_num+1].moneymove(100000); //starts the bank out with a lot of money
 SpecificSpaces(); //fills the spaces
 //PIECE SELECTION
 
@@ -330,6 +332,20 @@ void Acquistion(int a, int b) { //input the number position of the first player 
 	players[b].Lost();
 }
 
+void GameProgress() { //updates the progress of the game and shows the overall scores
+
+	//top bar
+
+	for(int i=0; i<30; i++) {
+		cout << "-";
+	}
+	cout << "GAME PROGRESS" << endl;
+	for(int i=0; i<30; i++) {
+		cout << "-";
+	}
+
+}
+
 void printCompleteRow(int start, int end) {
 		//the TOP BAR
 	if (start < end) {//if true, then the counter increases, if false, it decreases
@@ -545,62 +561,62 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	
 	spaces[0].ChangeName("HOME!");
 	spaces[0].ChangeOwner(' ');
-	spaces[0].AddActions(".....",".....","....."); //the home button has no changes on it.
+	spaces[0].AddActions("     ","     ","     "); //the home button has no changes on it.
 
 
 	spaces[1].ChangeName("HOROW");
 	spaces[1].ChangeOwner(' ');
-	spaces[1].AddActions("+1000",".....",".....");
+	spaces[1].AddActions("Add  ","$1000","to u!");
 
 
 	spaces[2].ChangeName("BUFFE");
 	spaces[2].ChangeOwner(' ');
-	spaces[2].AddActions("+5000",".....",".....");
+	spaces[2].AddActions("DRAW ","a    ","CARD!");
 
 
 	spaces[3].ChangeName("BAD$$");
 	spaces[3].ChangeOwner(' ');
-	spaces[3].AddActions("-3000",".....",".....");
+	spaces[3].AddActions("GO TO","DELAY","     ");
 
 
 	spaces[4].ChangeName("RICKR");
 	spaces[4].ChangeOwner(' ');
-	spaces[4].AddActions("+300.","SKIP!","BUY??");
+	spaces[4].AddActions("Add  ","$5000","to u!");
 
 
 	spaces[5].ChangeName("GATES");
 	spaces[5].ChangeOwner(' ');
-	spaces[5].AddActions("+7000",".....","CARD.");
+	spaces[5].AddActions("Add  ","$8000","to u!");
 
 
 	spaces[6].ChangeName("ANGEL");
 	spaces[6].ChangeOwner(' ');
-	spaces[6].AddActions("+200.",".....",".....");
+	spaces[6].AddActions("DRAW ","a    ","CARD!");
 
 
 	spaces[7].ChangeName("SEANP");
 	spaces[7].ChangeOwner(' ');
-	spaces[7].AddActions("+400.","SKIP!","BUY??");
+	spaces[7].AddActions("Add  ","$4000","to u!");
 
 
 	spaces[8].ChangeName("BOGLE");
 	spaces[8].ChangeOwner(' ');
-	spaces[8].AddActions("+5000",".....","CARD.");
+	spaces[8].AddActions("Add  ","$4000","to u!");
 
 
 	spaces[9].ChangeName("LYNCH");
 	spaces[9].ChangeOwner(' ');
-	spaces[9].AddActions("+4000",".....","BUY??");
+	spaces[9].AddActions("DRAW ","a    ","CARD!");
 
 
 	spaces[10].ChangeName("GROWT");
 	spaces[10].ChangeOwner(' ');
-	spaces[10].AddActions("+0000",".....",".....");
+	spaces[10].AddActions("     ","     ","     ");
 
 
 	spaces[11].ChangeName("DELAY");
 	spaces[11].ChangeOwner(' ');
-	spaces[11].AddActions("-4000",".....",".....");
+	spaces[11].AddActions("LOSE ","$4000","     ");
 
 
 	spaces[12].ChangeName("LUCKY");
@@ -610,27 +626,27 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[13].ChangeName("COMPE");
 	spaces[13].ChangeOwner(' ');
-	spaces[13].AddActions("-8000",".....",".....");
+	spaces[13].AddActions("LOSE ","$8000","     ");
 
 
 	spaces[14].ChangeName("MENTO");
 	spaces[14].ChangeOwner(' ');
-	spaces[14].AddActions("+0000","SKIP!","CARD.");
+	spaces[14].AddActions("     ","     ","     ");
 
 
 	spaces[15].ChangeName("MISSE");
 	spaces[15].ChangeOwner(' ');
-	spaces[15].AddActions("-5000",".....",".....");
+	spaces[15].AddActions("LOSE ","$5000","     ");
 
 
 	spaces[16].ChangeName("EMERG");
 	spaces[16].ChangeOwner(' ');
-	spaces[16].AddActions("-4000",".....","CARD.");
+	spaces[16].AddActions("LOSE ","$4000","     ");
 
 
 	spaces[17].ChangeName("OFFIC");
 	spaces[17].ChangeOwner(' ');
-	spaces[17].AddActions("+0000",".....","CARD.");
+	spaces[17].AddActions("DRAW ","a    ","CARD!");
 
 
 	spaces[18].ChangeName("RELOC");
@@ -640,110 +656,110 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[19].ChangeName("LUCKE");
 	spaces[19].ChangeOwner(' ');
-	spaces[19].AddActions("+8000",".....",".....");
+	spaces[19].AddActions("DRAW ","a    ","CARD!");
 
 
 	spaces[20].ChangeName("NEWSP");
 	spaces[20].ChangeOwner(' ');
-	spaces[20].AddActions("+0000",".....","CARD.");
+	spaces[20].AddActions("DRAW ","a    ","CARD!");
 
 
 	spaces[21].ChangeName("DESIG");
 	spaces[21].ChangeOwner(' ');
-	spaces[21].AddActions("-200.","SKIP!",".....");
+	spaces[21].AddActions("LOSE ","$200 ","     ");
 
 
 	spaces[22].ChangeName("SALES");
 	spaces[22].ChangeOwner(' ');
-	spaces[22].AddActions("-700.",".....","BUY??");
+	spaces[22].AddActions("Add  ","$3000","to u!");
 
 
 	spaces[23].ChangeName("MARKE");
 	spaces[23].ChangeOwner(' ');
-	spaces[23].AddActions("+300.",".....",".....");
+	spaces[23].AddActions("Add  ","$1000","to u!");
 
 
 	spaces[24].ChangeName("LAWYE");
 	spaces[24].ChangeOwner(' ');
-	spaces[24].AddActions("-100.",".....","BUY??");
+	spaces[24].AddActions("LOSE ","$1000","     ");
 
 
 	spaces[25].ChangeName("PMFIT");
 	spaces[25].ChangeOwner(' ');
-	spaces[25].AddActions("+5000",".....","CARD.");
+	spaces[25].AddActions("Add  ","$5000","to u!");
 
 
 	spaces[26].ChangeName("ITERA");
 	spaces[26].ChangeOwner(' ');
-	spaces[26].AddActions("-400.",".....","CARD.");
+	spaces[26].AddActions("DRAW ","a    ","CARD!");
 
 
 	spaces[26].ChangeName("PROGR");
 	spaces[26].ChangeOwner(' ');
-	spaces[26].AddActions("-400.","SKIP!","BUY??");
+	spaces[26].AddActions("Add  ","$200 ","to u!");
 
 
 	spaces[27].ChangeName("TEAM!");
 	spaces[27].ChangeOwner(' ');
-	spaces[27].AddActions("+1000",".....","CARD.");
+	spaces[27].AddActions("Add  ","$2000","to u!");
 
 
 	spaces[28].ChangeName("SMART");
 	spaces[28].ChangeOwner(' ');
-	spaces[28].AddActions("+3000","SKIP!",".....");
+	spaces[28].AddActions("Add  ","$3000","to u!");
 
 
 	spaces[29].ChangeName("SOCIL");
 	spaces[29].ChangeOwner(' ');
-	spaces[29].AddActions("+0000",".....",".....");
+	spaces[29].AddActions("     ","     ","     ");
 
 
 	spaces[30].ChangeName("HEALT");
 	spaces[30].ChangeOwner(' ');
-	spaces[30].AddActions("-4000",".....","CARD.");
+	spaces[30].AddActions("LOSE ","$7000","     ");
 
 
 	spaces[31].ChangeName("FAMIL");
 	spaces[31].ChangeOwner(' ');
-	spaces[31].AddActions("-2000",".....",".....");
+	spaces[31].AddActions("LOSE ","$2000","     ");
 
 
 	spaces[32].ChangeName("BABY!");
 	spaces[32].ChangeOwner(' ');
-	spaces[32].AddActions("-4000","SKIP!","CARD.");
+	spaces[32].AddActions("LOSE ","$4000","     ");
 
 
 	spaces[33].ChangeName("SCARD");
 	spaces[33].ChangeOwner(' ');
-	spaces[33].AddActions("-3000",".....",".....");
+	spaces[33].AddActions("LOSE ","$3000","     ");
 
 
 	spaces[34].ChangeName("FORUN");
 	spaces[34].ChangeOwner(' ');
-	spaces[34].AddActions("+3000",".....",".....");
+	spaces[34].AddActions("Add  ","$1000","to u!");
 
 
 	spaces[35].ChangeName("TIMES");
 	spaces[35].ChangeOwner(' ');
-	spaces[35].AddActions("+1500","SKIP!",".....");
+	spaces[35].AddActions("Add  ","$1000","to u!");
 
 
 	spaces[36].ChangeName("LEARN");
 	spaces[36].ChangeOwner(' ');
-	spaces[36].AddActions("+1000",".....",".....");
+	spaces[36].AddActions("Add  ","$2000","to u!");
 
 
 	spaces[37].ChangeName("TALTR");
 	spaces[37].ChangeOwner(' ');
-	spaces[37].AddActions("+9000","SKIP!","BUY??");
+	spaces[37].AddActions("Add  ","$9000","to u!");
 
 
 	spaces[38].ChangeName("CONFE");
 	spaces[38].ChangeOwner(' ');
-	spaces[38].AddActions("-400.",".....",".....");
+	spaces[38].AddActions("LOSE ","$4000","     ");
 
 
 	spaces[39].ChangeName("FLIPR");
 	spaces[39].ChangeOwner(' ');
-	spaces[39].AddActions("+0000","SKIP!","BUY??");
+	spaces[39].AddActions("GO TO","TALTR","     ");
 }
