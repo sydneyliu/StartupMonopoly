@@ -46,7 +46,7 @@ intro();
 CheckPlayers(); //gives the number of players playing the game
 
 //DYNAMICALLY ALLOCATE ARRAYS for the number of players and Squares
-players = new Player[player_num];
+players = new Player[player_num+1]; //player_num+1 is the 
 spaces = new Space[NumSpaces]; //in this case there are 40 squares
 SpecificSpaces(); //fills the spaces
 //PIECE SELECTION
@@ -194,38 +194,41 @@ void GameRounds() {
 			DemoDay();
 		}
 		for(int i=0; i<player_num; i++) {
-			cout <<"Player "<< i+1<< "'s move. Hit enter to roll the die or type Q to quit. ";
-			string enternow;
-			getline(cin, enternow);
-			if (enternow=="Q") {
-				switcher=false;
-				break;
+			if(players[i].checkLost()==1) {
+				cout <<"Player "<< i+1<< "'s move. Hit enter to roll the die or type Q to quit. ";
+				string enternow;
+				getline(cin, enternow);
+				if (enternow=="Q") {
+					switcher=false;
+					break;
+				}
+				if (enternow.empty()) { //utilizes the empty line to continue
+					enternow ="a";
+				}
+				die=dice(); //random number
+				int mover1 = players[i].currentSpace;
+				int mover2 =players[i].currentSpace+die;
+				if(mover2>=40) { //when the number runs up to 40, it resets back down so it will never run over 40
+					mover2-=40;
+				}
+				players[i].move(spaces[mover1], spaces[mover2], i, die); //adds to currentSpace
+				printBoard(); //prints the board
+				spaces[mover1].pieces[i]=' '; //updates the position in the board
+				spaces[mover2].pieces[i]=players[i].name;
+				cout << "Player " << i+1 << " rolled a " << die << ". Move " << die+1 << " spaces." << endl;
+				declareWinners(); //checks if any of the players have won.
+				if (winnerOVER==1) { //if a winner is found
+					switcher = false; //breaks out of the loop
+				}
+				if (1 > 2) { //if one company is 10x larger than another company
+					int x; //larger company
+					int y; //smaller company
+					Acquisition(x, y);
+				}
+				setLosers();
+				//organizeLosers();
 			}
-			if (enternow.empty()) { //utilizes the empty line to continue
-				enternow ="a";
-			}
-			die=dice(); //random number
-			int mover1 = players[i].currentSpace;
-			int mover2 =players[i].currentSpace+die;
-			if(mover2>=40) { //when the number runs up to 40, it resets back down so it will never run over 40
-				mover2-=40;
-			}
-			players[i].move(spaces[mover1], spaces[mover2], i, die); //adds to currentSpace
-			printBoard(); //prints the board
-			spaces[mover1].pieces[i]=' '; //updates the position in the board
-			spaces[mover2].pieces[i]=players[i].name;
-			cout << "Player " << i+1 << " rolled a " << die << ". Move " << die+1 << " spaces." << endl;
-			declareWinners(); //checks if any of the players have won.
-			if (winnerOVER==1) { //if a winner is found
-				switcher = false; //breaks out of the loop
-			}
-			if (1 > 2) { //if one company is 10x larger than another company
-				int x; //larger company
-				int y; //smaller company
-				Acquisition(x, y);
-			}
-			setLosers();
-			organizeLosers();
+
 		}
 	}
 
@@ -266,7 +269,7 @@ void setLosers() {
 	}
 }
 
-void organizeLosers() {//check if there are players who have lost. If so, shift the players into the correct positions.
+/*void organizeLosers() {//check if there are players who have lost. If so, shift the players into the correct positions.
 	int num_compare = 0;
 	for (int i=0; i<player_num; i++) {
 		num_compare+=players[i].checkLost();
@@ -277,7 +280,7 @@ void organizeLosers() {//check if there are players who have lost. If so, shift 
 
 		player_num-=1; // cut short the numbers of players by 1
 	}
-}
+} */
 
 void DemoDay() {
 	int playerscores;
@@ -617,7 +620,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[15].ChangeName("MISSE");
 	spaces[15].ChangeOwner(' ');
-	spaces[15].AddActions("-5000","B.....",".....");
+	spaces[15].AddActions("-5000",".....",".....");
 
 
 	spaces[16].ChangeName("EMERG");
@@ -727,7 +730,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[36].ChangeName("LEARN");
 	spaces[36].ChangeOwner(' ');
-	spaces[36].AddActions("+0000",".....",".....");
+	spaces[36].AddActions("+1000",".....",".....");
 
 
 	spaces[37].ChangeName("TALTR");
