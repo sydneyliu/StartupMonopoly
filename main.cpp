@@ -194,12 +194,16 @@ void GameRounds() {
 
 		for(int i=0; i<player_num; i++) {
 			if(players[i].checkLost()==1) {
-				cout << players[i].name<< "'s move. Hit enter to roll the die or type Q to quit. ";
+				cout << players[i].name<< "'s move. Hit enter to roll the die or type Q to quit or R to resign. ";
 				string enternow;
 				getline(cin, enternow);
 				if (enternow=="Q") {
 					switcher=false;
 					break;
+				}
+				if (enternow=="R") {
+					players[i].Lost();
+					cout << players[i].name << " has resigned." << endl;
 				}
 				if (enternow.empty()) { //utilizes the empty line to continue
 					enternow ="a";
@@ -311,32 +315,35 @@ void DemoDay() {
 	cout << "All the teams have been given a great opportunity to pitch their company very few will walk out with money! \nWill it be you?"<<endl;
 	cout << endl;
 	for (int i=0; i<player_num; i++) {
-		cout << "It's " << players[i].name << " turn to demo. Hit ENTER to demo.";
-		string enternow;
-		getline(cin, enternow);
-		if (enternow.empty()) { //utilizes the empty line to continue
-			enternow ="a";
-		}
-		int Demo =rand() % 100 + 1; //selects a random number from 1 to 100.
-		playerscores = players[i].ScoreChecker();
-		if (playerscores > Demo) {
-			int chance=rand()%100+1;
-			if (chance <=25) {
-				players[i].moneymove(500);
-				players[i].ImproveScore(playerscores/5);
-			} else if (chance > 25 && chance <90) {
-				players[i].moneymove(250);
-				players[i].ImproveScore(playerscores/10);
-			} else {
-				//give money
-				players[i].moneymove(5000);
-				players[i].ImproveScore(playerscores/2);
+		if(players[i].checkLost()==1) {
+			cout << "It's " << players[i].name << " turn to demo. Hit ENTER to demo.";
+			string enternow;
+			getline(cin, enternow);
+			if (enternow.empty()) { //utilizes the empty line to continue
+				enternow ="a";
 			}
+			int Demo =rand() % 100 + 1; //selects a random number from 1 to 100.
+			playerscores = players[i].ScoreChecker();
+			if (playerscores > Demo) {
+				int chance=rand()%100+1;
+				if (chance <=25) {
+					players[i].moneymove(500);
+					players[i].ImproveScore(playerscores/5);
+				} else if (chance > 25 && chance <90) {
+					players[i].moneymove(250);
+					players[i].ImproveScore(playerscores/10);
+				} else {
+					//give money
+					players[i].moneymove(5000);
+					players[i].ImproveScore(playerscores/2);
+				}
 
-		} else {
-			players[i].ImproveScore(2);
-			cout << "Sorry, the investors at the Demo Day didn't really like you. Better luck next time!" << endl;
+			} else {
+				players[i].ImproveScore(2);
+				cout << "Sorry, the investors at the Demo Day didn't really like you. Better luck next time!" << endl;
+			}
 		}
+
 	}
 
 }
@@ -364,7 +371,11 @@ void GameProgress() { //updates the progress of the game and shows the overall s
 	cout << endl;
 	cout << "Bank currently has: $" << players[player_num+1].CashChecker() << endl;
 	for (int i = 0; i<player_num; i++) {
-		cout << players[i].name << " has $" << players[i].CashChecker() << endl;
+		cout << players[i].name << " has $" << players[i].CashChecker();
+		if(players[i].checkLost()==0) {
+			cout << " (Player has resigned)";
+		}
+		cout << endl;
 	}
 
 }
