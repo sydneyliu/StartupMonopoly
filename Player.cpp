@@ -8,7 +8,7 @@
 using namespace std;
 
 Player::Player() {
-	cash = 15; //amount of money
+	cash = 150; //amount of money
 	customer = 2; //the number of the customer cards that are still available
 	playing = 1; //is the player still in the game?
 	currentSpace = 0; //Stores the current space the player is on

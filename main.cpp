@@ -49,7 +49,6 @@ CheckPlayers(); //gives the number of players playing the game
 //DYNAMICALLY ALLOCATE ARRAYS for the number of players and Squares
 players = new Player[player_num+1]; //player_num+1 is the Bank
 spaces = new Space[NumSpaces]; //in this case there are 40 squares
-players[player_num+1].moneymove(100000); //starts the bank out with a lot of money
 SpecificSpaces(); //fills the spaces
 //PIECE SELECTION
 
@@ -62,7 +61,7 @@ getline(cin, startgame);
 if (startgame.empty()) {
 	startgame ="a";
 }
-
+players[player_num+1].moneymove(10000000); //starts the bank out with a lot of money
 
 //****************GAME PLAY STARTS******************************
 GameRounds();
@@ -189,15 +188,13 @@ void GameRounds() {
 		spaces[0].pieces[i] = players[i].name;
 	}
 	int die;
-	bool switcher=true;
+	bool switcher=true; //keeps the loop going
 	while(switcher) {
 		rounds++; //keeps track of the number of rounds
-		if ((rounds%5) == 0) { //DEMO DAYS every 5 rounds
-			DemoDay();
-		}
+
 		for(int i=0; i<player_num; i++) {
 			if(players[i].checkLost()==1) {
-				cout <<"Player "<< i+1<< "'s move. Hit enter to roll the die or type Q to quit. ";
+				cout << players[i].name<< "'s move. Hit enter to roll the die or type Q to quit. ";
 				string enternow;
 				getline(cin, enternow);
 				if (enternow=="Q") {
@@ -217,11 +214,7 @@ void GameRounds() {
 				printBoard(); //prints the board
 				spaces[mover1].pieces[i]=' '; //updates the position in the board
 				spaces[mover2].pieces[i]=players[i].name;
-				cout << "Player " << i+1 << " rolled a " << die << ". Move " << die+1 << " spaces." << endl;
-				declareWinners(); //checks if any of the players have won.
-				if (winnerOVER==1) { //if a winner is found
-					switcher = false; //breaks out of the loop
-				}
+				cout << players[i].name << " rolled a " << die << ". Move " << die+1 << " spaces." << endl;
 				if (1 > 2) { //if one company is 10x larger than another company
 					int x; //larger company
 					int y; //smaller company
@@ -229,10 +222,22 @@ void GameRounds() {
 				}
 				setLosers();
 				//organizeLosers();
-			}
+				declareWinners(); //checks if any of the players have won.
+				if (winnerOVER==1) { //if a winner is found
+					switcher = false; //breaks out of the loop
+				}
+			}//end of if statement that chekcs if the player is still in the game
 
+		} //end of for loop
+		if ((rounds%5) == 0) { //DEMO DAYS every 5 rounds
+			DemoDay();
 		}
-	}
+		declareWinners(); //checks if any of the players have won.
+		if (winnerOVER==1) { //if a winner is found
+			switcher = false; //breaks out of the loop
+		}
+		GameProgress();
+	} //end of while loop
 
 }
 
@@ -242,6 +247,16 @@ void declareWinners() { //checks for the winners
 	for(int i=0; i<player_num; i++) {
 		tracker += players[i].GameEnd();
 	} // end of for loop
+	for (int i=0; i<player_num; i++) {
+		if(players[i].CashChecker()>=100000) {
+			for(int i=0; i<player_num; i++) {
+				if(players[i].CashChecker() < 100000) {
+					players[i].Lost();
+				}
+				tracker = 1;
+			}
+		} 
+	}
 	if(tracker == 1) {
 		cout << "GAME IS OVER!" << endl;
 		winnerOVER = 1; //sets the game status to over. Use this to break out of all the loops
@@ -249,6 +264,7 @@ void declareWinners() { //checks for the winners
 			temp = players[i].GameEnd();
 			if(temp==1) {
 				cout << "Player " << players[i].name << " has won! CONGRATULATIONS!" << endl;
+				break;
 			}
 		} //for loop to check who the winner is.
 	}
@@ -306,13 +322,14 @@ void DemoDay() {
 		if (playerscores > Demo) {
 			int chance=rand()%100+1;
 			if (chance <=25) {
-				//give money
+				players[i].moneymove(500);
 				players[i].ImproveScore(playerscores/5);
 			} else if (chance > 25 && chance <90) {
-				//give money
+				players[i].moneymove(250);
 				players[i].ImproveScore(playerscores/10);
 			} else {
 				//give money
+				players[i].moneymove(5000);
 				players[i].ImproveScore(playerscores/2);
 			}
 
@@ -339,9 +356,15 @@ void GameProgress() { //updates the progress of the game and shows the overall s
 	for(int i=0; i<30; i++) {
 		cout << "-";
 	}
+	cout << endl;
 	cout << "GAME PROGRESS" << endl;
 	for(int i=0; i<30; i++) {
 		cout << "-";
+	}
+	cout << endl;
+	cout << "Bank currently has: $" << players[player_num+1].CashChecker() << endl;
+	for (int i = 0; i<player_num; i++) {
+		cout << players[i].name << " has $" << players[i].CashChecker() << endl;
 	}
 
 }
@@ -566,7 +589,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[1].ChangeName("HOROW");
 	spaces[1].ChangeOwner(' ');
-	spaces[1].AddActions("Add  ","$1000","to u!");
+	spaces[1].AddActions("Add  ","$500 ","to u!");
 
 
 	spaces[2].ChangeName("BUFFE");
@@ -581,12 +604,12 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[4].ChangeName("RICKR");
 	spaces[4].ChangeOwner(' ');
-	spaces[4].AddActions("Add  ","$5000","to u!");
+	spaces[4].AddActions("Add  ","$1000","to u!");
 
 
 	spaces[5].ChangeName("GATES");
 	spaces[5].ChangeOwner(' ');
-	spaces[5].AddActions("Add  ","$8000","to u!");
+	spaces[5].AddActions("Add  ","$600 ","to u!");
 
 
 	spaces[6].ChangeName("ANGEL");
@@ -596,12 +619,12 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[7].ChangeName("SEANP");
 	spaces[7].ChangeOwner(' ');
-	spaces[7].AddActions("Add  ","$4000","to u!");
+	spaces[7].AddActions("Add  ","$200 ","to u!");
 
 
 	spaces[8].ChangeName("BOGLE");
 	spaces[8].ChangeOwner(' ');
-	spaces[8].AddActions("Add  ","$4000","to u!");
+	spaces[8].AddActions("Add  ","$600 ","to u!");
 
 
 	spaces[9].ChangeName("LYNCH");
@@ -616,7 +639,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[11].ChangeName("DELAY");
 	spaces[11].ChangeOwner(' ');
-	spaces[11].AddActions("LOSE ","$4000","     ");
+	spaces[11].AddActions("LOSE ","$200 ","     ");
 
 
 	spaces[12].ChangeName("LUCKY");
@@ -626,7 +649,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[13].ChangeName("COMPE");
 	spaces[13].ChangeOwner(' ');
-	spaces[13].AddActions("LOSE ","$8000","     ");
+	spaces[13].AddActions("LOSE ","$800 ","     ");
 
 
 	spaces[14].ChangeName("MENTO");
@@ -636,12 +659,12 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[15].ChangeName("MISSE");
 	spaces[15].ChangeOwner(' ');
-	spaces[15].AddActions("LOSE ","$5000","     ");
+	spaces[15].AddActions("LOSE ","$500 ","     ");
 
 
 	spaces[16].ChangeName("EMERG");
 	spaces[16].ChangeOwner(' ');
-	spaces[16].AddActions("LOSE ","$4000","     ");
+	spaces[16].AddActions("LOSE ","$400 ","     ");
 
 
 	spaces[17].ChangeName("OFFIC");
@@ -651,7 +674,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[18].ChangeName("RELOC");
 	spaces[18].ChangeOwner(' ');
-	spaces[18].AddActions("-700.",".....","CARD.");
+	spaces[18].AddActions("GO TO","ANGEL","     ");
 
 
 	spaces[19].ChangeName("LUCKE");
@@ -686,7 +709,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[25].ChangeName("PMFIT");
 	spaces[25].ChangeOwner(' ');
-	spaces[25].AddActions("Add  ","$5000","to u!");
+	spaces[25].AddActions("Add  ","$500 ","to u!");
 
 
 	spaces[26].ChangeName("ITERA");
@@ -701,12 +724,12 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[27].ChangeName("TEAM!");
 	spaces[27].ChangeOwner(' ');
-	spaces[27].AddActions("Add  ","$2000","to u!");
+	spaces[27].AddActions("Add  ","$200 ","to u!");
 
 
 	spaces[28].ChangeName("SMART");
 	spaces[28].ChangeOwner(' ');
-	spaces[28].AddActions("Add  ","$3000","to u!");
+	spaces[28].AddActions("Add  ","$300 ","to u!");
 
 
 	spaces[29].ChangeName("SOCIL");
@@ -716,47 +739,47 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	spaces[30].ChangeName("HEALT");
 	spaces[30].ChangeOwner(' ');
-	spaces[30].AddActions("LOSE ","$7000","     ");
+	spaces[30].AddActions("LOSE ","$700 ","     ");
 
 
 	spaces[31].ChangeName("FAMIL");
 	spaces[31].ChangeOwner(' ');
-	spaces[31].AddActions("LOSE ","$2000","     ");
+	spaces[31].AddActions("LOSE ","$200 ","     ");
 
 
 	spaces[32].ChangeName("BABY!");
 	spaces[32].ChangeOwner(' ');
-	spaces[32].AddActions("LOSE ","$4000","     ");
+	spaces[32].AddActions("LOSE ","$400 ","     ");
 
 
 	spaces[33].ChangeName("SCARD");
 	spaces[33].ChangeOwner(' ');
-	spaces[33].AddActions("LOSE ","$3000","     ");
+	spaces[33].AddActions("LOSE ","$300 ","     ");
 
 
 	spaces[34].ChangeName("FORUN");
 	spaces[34].ChangeOwner(' ');
-	spaces[34].AddActions("Add  ","$1000","to u!");
+	spaces[34].AddActions("Add  ","$100 ","to u!");
 
 
 	spaces[35].ChangeName("TIMES");
 	spaces[35].ChangeOwner(' ');
-	spaces[35].AddActions("Add  ","$1000","to u!");
+	spaces[35].AddActions("Add  ","$100 ","to u!");
 
 
 	spaces[36].ChangeName("LEARN");
 	spaces[36].ChangeOwner(' ');
-	spaces[36].AddActions("Add  ","$2000","to u!");
+	spaces[36].AddActions("Add  ","$200 ","to u!");
 
 
 	spaces[37].ChangeName("TALTR");
 	spaces[37].ChangeOwner(' ');
-	spaces[37].AddActions("Add  ","$9000","to u!");
+	spaces[37].AddActions("Add  ","$500 ","to u!");
 
 
 	spaces[38].ChangeName("CONFE");
 	spaces[38].ChangeOwner(' ');
-	spaces[38].AddActions("LOSE ","$4000","     ");
+	spaces[38].AddActions("LOSE ","$400 ","     ");
 
 
 	spaces[39].ChangeName("FLIPR");
