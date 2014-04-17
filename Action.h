@@ -11,6 +11,7 @@ class Action {
 		Action();
 		~Action();
 		string text[3]; //the number of lines in the board for the actions
+		//virtual void executeAction()=0;
 	private:
 
 };

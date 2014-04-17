@@ -542,205 +542,205 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	
 	spaces[0].ChangeName("HOME!");
 	spaces[0].ChangeOwner(' ');
-	spaces[0].AddActions("+1500","STAY0",".....");
+	spaces[0].AddActions(".....",".....","....."); //the home button has no changes on it.
 
 
 	spaces[1].ChangeName("HOROW");
 	spaces[1].ChangeOwner(' ');
-	spaces[1].AddActions("+1000","MOVE2",".....");
+	spaces[1].AddActions("+1000",".....",".....");
 
 
 	spaces[2].ChangeName("BUFFE");
 	spaces[2].ChangeOwner(' ');
-	spaces[2].AddActions("+5000","MOVE4",".....");
+	spaces[2].AddActions("+5000",".....",".....");
 
 
 	spaces[3].ChangeName("BAD$$");
 	spaces[3].ChangeOwner(' ');
-	spaces[3].AddActions("-3000","STAY0",".....");
+	spaces[3].AddActions("-3000",".....",".....");
 
 
 	spaces[4].ChangeName("RICKR");
 	spaces[4].ChangeOwner(' ');
-	spaces[4].AddActions("+300.","STAY0","BUY??");
+	spaces[4].AddActions("+300.","SKIP!","BUY??");
 
 
 	spaces[5].ChangeName("GATES");
 	spaces[5].ChangeOwner(' ');
-	spaces[5].AddActions("+7000","MOVE6","CARD.");
+	spaces[5].AddActions("+7000",".....","CARD.");
 
 
 	spaces[6].ChangeName("ANGEL");
 	spaces[6].ChangeOwner(' ');
-	spaces[6].AddActions("+200.","MOVE1",".....");
+	spaces[6].AddActions("+200.",".....",".....");
 
 
 	spaces[7].ChangeName("SEANP");
 	spaces[7].ChangeOwner(' ');
-	spaces[7].AddActions("+400.","STAY0","BUY??");
+	spaces[7].AddActions("+400.","SKIP!","BUY??");
 
 
 	spaces[8].ChangeName("BOGLE");
 	spaces[8].ChangeOwner(' ');
-	spaces[8].AddActions("+5000","MOVE3","CARD.");
+	spaces[8].AddActions("+5000",".....","CARD.");
 
 
 	spaces[9].ChangeName("LYNCH");
 	spaces[9].ChangeOwner(' ');
-	spaces[9].AddActions("+4000","STAY0","BUY??");
+	spaces[9].AddActions("+4000",".....","BUY??");
 
 
 	spaces[10].ChangeName("GROWT");
 	spaces[10].ChangeOwner(' ');
-	spaces[10].AddActions("+0000","MOVE5",".....");
+	spaces[10].AddActions("+0000",".....",".....");
 
 
 	spaces[11].ChangeName("DELAY");
 	spaces[11].ChangeOwner(' ');
-	spaces[11].AddActions("-4000","BACK3",".....");
+	spaces[11].AddActions("-4000",".....",".....");
 
 
 	spaces[12].ChangeName("LUCKY");
 	spaces[12].ChangeOwner(' ');
-	spaces[12].AddActions("+8000","BACK2","CARD.");
+	spaces[12].AddActions("+8000","SKIP!","CARD.");
 
 
 	spaces[13].ChangeName("COMPE");
 	spaces[13].ChangeOwner(' ');
-	spaces[13].AddActions("-8000","MOVE1",".....");
+	spaces[13].AddActions("-8000",".....",".....");
 
 
 	spaces[14].ChangeName("MENTO");
 	spaces[14].ChangeOwner(' ');
-	spaces[14].AddActions("+0000","MOVE6","CARD.");
+	spaces[14].AddActions("+0000","SKIP!","CARD.");
 
 
 	spaces[15].ChangeName("MISSE");
 	spaces[15].ChangeOwner(' ');
-	spaces[15].AddActions("-5000","BACK4",".....");
+	spaces[15].AddActions("-5000","B.....",".....");
 
 
 	spaces[16].ChangeName("EMERG");
 	spaces[16].ChangeOwner(' ');
-	spaces[16].AddActions("-4000","BACK6","CARD.");
+	spaces[16].AddActions("-4000",".....","CARD.");
 
 
 	spaces[17].ChangeName("OFFIC");
 	spaces[17].ChangeOwner(' ');
-	spaces[17].AddActions("+0000","BACK1","CARD.");
+	spaces[17].AddActions("+0000",".....","CARD.");
 
 
 	spaces[18].ChangeName("RELOC");
 	spaces[18].ChangeOwner(' ');
-	spaces[18].AddActions("-700.","BACK5","CARD.");
+	spaces[18].AddActions("-700.",".....","CARD.");
 
 
 	spaces[19].ChangeName("LUCKE");
 	spaces[19].ChangeOwner(' ');
-	spaces[19].AddActions("+8000","MOVE1",".....");
+	spaces[19].AddActions("+8000",".....",".....");
 
 
 	spaces[20].ChangeName("NEWSP");
 	spaces[20].ChangeOwner(' ');
-	spaces[20].AddActions("+0000","MOVE3","CARD.");
+	spaces[20].AddActions("+0000",".....","CARD.");
 
 
 	spaces[21].ChangeName("DESIG");
 	spaces[21].ChangeOwner(' ');
-	spaces[21].AddActions("-200.","BACK7",".....");
+	spaces[21].AddActions("-200.","SKIP!",".....");
 
 
 	spaces[22].ChangeName("SALES");
 	spaces[22].ChangeOwner(' ');
-	spaces[22].AddActions("-700.","MOVE8","BUY??");
+	spaces[22].AddActions("-700.",".....","BUY??");
 
 
 	spaces[23].ChangeName("MARKE");
 	spaces[23].ChangeOwner(' ');
-	spaces[23].AddActions("+300.","MOVE5",".....");
+	spaces[23].AddActions("+300.",".....",".....");
 
 
 	spaces[24].ChangeName("LAWYE");
 	spaces[24].ChangeOwner(' ');
-	spaces[24].AddActions("-100.","BACK3","BUY??");
+	spaces[24].AddActions("-100.",".....","BUY??");
 
 
 	spaces[25].ChangeName("PMFIT");
 	spaces[25].ChangeOwner(' ');
-	spaces[25].AddActions("+5000","MOVE8","CARD.");
+	spaces[25].AddActions("+5000",".....","CARD.");
 
 
 	spaces[26].ChangeName("ITERA");
 	spaces[26].ChangeOwner(' ');
-	spaces[26].AddActions("-400.","MOVE3","CARD.");
+	spaces[26].AddActions("-400.",".....","CARD.");
 
 
 	spaces[26].ChangeName("PROGR");
 	spaces[26].ChangeOwner(' ');
-	spaces[26].AddActions("-400.","MOVE9","BUY??");
+	spaces[26].AddActions("-400.","SKIP!","BUY??");
 
 
 	spaces[27].ChangeName("TEAM!");
 	spaces[27].ChangeOwner(' ');
-	spaces[27].AddActions("+1000","MOVE2","CARD.");
+	spaces[27].AddActions("+1000",".....","CARD.");
 
 
 	spaces[28].ChangeName("SMART");
 	spaces[28].ChangeOwner(' ');
-	spaces[28].AddActions("+3000","MOVE3",".....");
+	spaces[28].AddActions("+3000","SKIP!",".....");
 
 
 	spaces[29].ChangeName("SOCIL");
 	spaces[29].ChangeOwner(' ');
-	spaces[29].AddActions("+0000","MOVE3",".....");
+	spaces[29].AddActions("+0000",".....",".....");
 
 
 	spaces[30].ChangeName("HEALT");
 	spaces[30].ChangeOwner(' ');
-	spaces[30].AddActions("-4000","BACK9","CARD.");
+	spaces[30].AddActions("-4000",".....","CARD.");
 
 
 	spaces[31].ChangeName("FAMIL");
 	spaces[31].ChangeOwner(' ');
-	spaces[31].AddActions("-2000","BACK3",".....");
+	spaces[31].AddActions("-2000",".....",".....");
 
 
 	spaces[32].ChangeName("BABY!");
 	spaces[32].ChangeOwner(' ');
-	spaces[32].AddActions("-4000","BACK8","CARD.");
+	spaces[32].AddActions("-4000","SKIP!","CARD.");
 
 
 	spaces[33].ChangeName("SCARD");
 	spaces[33].ChangeOwner(' ');
-	spaces[33].AddActions("-3000","BACK3",".....");
+	spaces[33].AddActions("-3000",".....",".....");
 
 
 	spaces[34].ChangeName("FORUN");
 	spaces[34].ChangeOwner(' ');
-	spaces[34].AddActions("+3000","BACK3",".....");
+	spaces[34].AddActions("+3000",".....",".....");
 
 
 	spaces[35].ChangeName("TIMES");
 	spaces[35].ChangeOwner(' ');
-	spaces[35].AddActions("+1500","STAY0",".....");
+	spaces[35].AddActions("+1500","SKIP!",".....");
 
 
 	spaces[36].ChangeName("LEARN");
 	spaces[36].ChangeOwner(' ');
-	spaces[36].AddActions("+0000","MOVE3",".....");
+	spaces[36].AddActions("+0000",".....",".....");
 
 
 	spaces[37].ChangeName("TALTR");
 	spaces[37].ChangeOwner(' ');
-	spaces[37].AddActions("+9000","MOVE9","BUY??");
+	spaces[37].AddActions("+9000","SKIP!","BUY??");
 
 
 	spaces[38].ChangeName("CONFE");
 	spaces[38].ChangeOwner(' ');
-	spaces[38].AddActions("-400.","MOVE9",".....");
+	spaces[38].AddActions("-400.",".....",".....");
 
 
 	spaces[39].ChangeName("FLIPR");
 	spaces[39].ChangeOwner(' ');
-	spaces[39].AddActions("+0000","STAY0","BUY??");
+	spaces[39].AddActions("+0000","SKIP!","BUY??");
 }

@@ -9,3 +9,23 @@
 #include <string>
 
 using namespace std;
+
+MoneyAction::MoneyAction()
+{
+}
+
+MoneyAction::MoneyAction(int money)
+{
+	_money = money;
+}
+
+void MoneyAction::pay_money(Player &p, int amount)
+{
+	p.give_money( amount );
+	_money -= amount;
+}
+
+void MoneyAction::executeAction()
+{
+    cout << _money << endl;
+}
