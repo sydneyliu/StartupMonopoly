@@ -8,10 +8,22 @@
 #include <string>
 using namespace std;
 
-Action::Action() {
+Action::Action()
+{
+}
 
+Action::Action(string name)
+{
+	_name = name;
 }
 
 Action::~Action() {
 	
 }
+
+string Action::print_name()
+{
+	return _name;
+}
+
+

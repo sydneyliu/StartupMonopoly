@@ -9,10 +9,13 @@ using namespace std;
 class Action {
 	public:
 		Action();
+		Action(string);
 		~Action();
 		string text[3]; //the number of lines in the board for the actions
 		//virtual void executeAction()=0;
+		string print_name();
 	private:
+		string _name;
 
 };
 
