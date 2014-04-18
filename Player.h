@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-
+#include "Space.h"
 using namespace std;
 
 class Player {
@@ -21,6 +21,7 @@ class Player {
 		int CustomerChecker(); //checks the number of customers left
 		int ScoreChecker(); //returns the company score
 		void ImproveScore(int); //Improve the score of the company
+		void give_money(int); //give up money
 	private:
 		int cash; //amount of money left in the bank, in hundred of thousand of dollars
 		int customer; //number of customer cards left

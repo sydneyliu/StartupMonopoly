@@ -6,6 +6,9 @@
 #include <ctime>
 #include <cstdlib>
 #include <iomanip>
+#include "MoneyAction.h"
+#include "MoveAction.h"
+#include "GotoAction.h"
 using namespace std;
 
 

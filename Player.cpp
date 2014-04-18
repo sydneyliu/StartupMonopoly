@@ -78,3 +78,8 @@ void Player::ImproveScore(int improve) {
 void Player::moneymove(int moneyadd) {
 	cash +=moneyadd;
 }
+
+void Player::give_money(int amount)
+{
+	 cash = amount + cash;
+}
