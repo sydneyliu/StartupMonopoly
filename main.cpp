@@ -427,35 +427,40 @@ void properties(int playernum, int spacenum) { //deals with the buying and selli
 	string userResponse;
 	int price = rand()%1000 + 500; //prices are randomly generated
 	do {
-		cout << "Would you like to purchase this property for $" << price << "? Please type Yes or No." << endl;
-		cin >> userResponse;
-		if(cin.fail()) {
-			cin.clear();
-			cin.ignore(100000, '\n');
-			cout << "Not an number, please put a number!" << endl;
+		if (price < players[playernum].CashChecker()) { //if player is not big enough, then skip this part
+			cout << "Would you like to purchase this property for $" << price << "? Please type Yes or No." << endl;
+			cin >> userResponse;
+			if(cin.fail()) {
+				cin.clear();
+				cin.ignore(100000, '\n');
+				cout << "Not an number, please put a number!" << endl;
+				continue;
+			}
+			if (userResponse == "Yes" || userResponse=="YES") {
+				spaces[spacenum].ChangeOwner(players[playernum].name); //changes the owner of the square
+				players[playernum].moneymove(-price);
+				bank[0].money +=price;
+				cout << "You now own this!" << endl;
+				string enternow1;
+				getline(cin, enternow1);
+				if (enternow1.empty()) { //utilizes the empty line to continue
+					enternow1 ="a";
+				}
+				break;
+			}
+			if (userResponse == "No" || userResponse=="NO") {
+				string enternow1;
+				getline(cin, enternow1);
+				if (enternow1.empty()) { //utilizes the empty line to continue
+					enternow1 ="a";
+				}
+				break;
+			}
 			continue;
-		}
-		if (userResponse == "Yes" || userResponse=="YES") {
-			spaces[spacenum].ChangeOwner(players[playernum].name); //changes the owner of the square
-			players[playernum].moneymove(-price);
-			bank[0].money +=price;
-			cout << "You now own this!" << endl;
-			string enternow1;
-			getline(cin, enternow1);
-			if (enternow1.empty()) { //utilizes the empty line to continue
-				enternow1 ="a";
-			}
+		} else {
 			break;
 		}
-		if (userResponse == "No" || userResponse=="NO") {
-			string enternow1;
-			getline(cin, enternow1);
-			if (enternow1.empty()) { //utilizes the empty line to continue
-				enternow1 ="a";
-			}
-			break;
-		}
-		continue;
+		
 	} while(true);
 
 }
