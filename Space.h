@@ -11,14 +11,10 @@ class Space {
 		char pieces[4]; //keeps track of the pieces that are on that square	
 		void ChangeOwner(char); //tracks the owner of the space
 		void PrintName();
-		void PrintOwner();
+		char PrintOwner();
 		void ChangeName(string);
 		void AddActions(string, string, string);
 		string printedName;
-		string printedOwner;
-		string printedAction1;
-		string printedAction2;
-		string printedAction3;
 	private:
 		string name; //name of the space. 5 chars
 		Action *Actions; //stores the actions that the square does

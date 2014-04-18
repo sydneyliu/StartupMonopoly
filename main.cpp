@@ -30,7 +30,7 @@ void setLosers(); //sets players as losers if they lose all of their customers
 void organizeLosers(); //organizes the losers so they won't get a turn anymore in the game
 void GameProgress(); //gives an update on the progress of the game
 void executeAction( Action& a); //execute action
-void properties(int); //charges and makes the purchases of property
+void properties(int, int); //charges and makes the purchases of property
 
 //*****************GLOBAL VARIABLES******************************
 const int NumSpaces = 40; //the number of spaces there are on the board
@@ -232,14 +232,14 @@ void GameRounds() {
 				spaces[mover1].pieces[i]=' '; //updates the position in the board
 				spaces[mover2].pieces[i]=players[i].name;
 				printBoard(); //prints the board
-				cout << players[i].name << " rolled a " << die << ". Move " << die+1 << " spaces." << endl;
+				cout << players[i].name << " rolled a " << die << ". Move " << die << " spaces." << endl;
 
 				//executes the actions that are on the game board
 				cout << "You have landed on "<< spaces[mover2].printedName <<"!"<< endl;
 				actions[mover2]->executeAction();
 
 				//ends the actions that are execution
-				properties(i);
+				properties(i, mover2);
 
 				if (1 > 2) { //if one company is 10x larger than another company
 					int x; //larger company
@@ -422,10 +422,10 @@ void executeAction( Action& a)
     cout << "Test" << endl;
 }
 
-void properties(int player) {
+void properties(int playernum, int spacenum) { //deals with the buying and selling of 
 	//each property costs a random number between $500 and $1500
 	string userResponse;
-	int price = rand()%1000 + 500;
+	int price = rand()%1000 + 500; //prices are randomly generated
 	do {
 		cout << "Would you like to purchase this property for $" << price << "? Please type Yes or No." << endl;
 		cin >> userResponse;
@@ -436,6 +436,9 @@ void properties(int player) {
 			continue;
 		}
 		if (userResponse == "Yes" || userResponse=="YES") {
+			spaces[spacenum].ChangeOwner(players[playernum].name); //changes the owner of the square
+			players[playernum].moneymove(-price);
+			bank[0].money +=price;
 			cout << "You now own this!" << endl;
 			string enternow1;
 			getline(cin, enternow1);
@@ -527,7 +530,7 @@ void printCompleteRow(int start, int end) {
 
 	//Ninth Row, Owner
 		for (int i =0; i<11; i++) { //Action 3
-			cout << "|" << setw(1) << " " << "Owner: "<< setw(1)<< spaces[start+i].printedOwner << setw(1) << " ";
+			cout << "|" << setw(1) << " " << "Owner: "<< setw(1)<< spaces[start+i].PrintOwner()<< setw(1) << " ";
 			if (i==10) {
 				cout << "|" << endl;
 			}
@@ -607,7 +610,7 @@ void printCompleteRow(int start, int end) {
 
 	//Ninth Row, Owner
 		for (int i =0; i<11; i++) { //Action 3
-			cout << "|" << setw(1) << " " << "Owner: "<< setw(1) << spaces[i].printedOwner << setw(1) << " ";
+			cout << "|" << setw(1) << " " << "Owner: "<< setw(1) << spaces[10-i].PrintOwner() << setw(1) << " ";
 			if (i==10) {
 				cout << "|" << endl;
 			}
@@ -649,7 +652,7 @@ void printIncompleteRow(int start, int end, bool Bottom) { //Bottom hecks if you
 	cout << "|" << "----------" << "|" << setw(98) << " " << "|" << "----------" << "|" << endl;
 
 	//Ninth Row, Owner
-	cout << "|" << setw(1) << " " << "Owner: " <<setw(1) << spaces[start].printedOwner << setw(1) << " " << "|" << setw(98) << " " << "|" << setw(1) << " " << "Owner: " <<setw(1) << spaces[end].printedOwner << setw(1)  << " " << "|" << endl;
+	cout << "|" << setw(1) << " " << "Owner: " <<setw(1) << spaces[start].PrintOwner() << setw(1) << " " << "|" << setw(98) << " " << "|" << setw(1) << " " << "Owner: " <<setw(1) << spaces[end].PrintOwner() << setw(1)  << " " << "|" << endl;
 
 
 	//Bottom bar
@@ -672,21 +675,18 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 	actions[0]=new GotoAction(); //just set it to go to Home
 	spaces[0].ChangeName("HOME!");
-	spaces[0].ChangeOwner(' ');
 	actions[0]->fillText(0, "     ");
 	actions[0]->fillText(1, "     ");
 	actions[0]->fillText(2, "     ");
 	
 	actions[1]= new MoneyAction();
 	spaces[1].ChangeName("HOROW");
-	spaces[1].ChangeOwner(' ');
 	actions[1]->fillText(0, "Add  ");
 	actions[1]->fillText(1, "$500 ");
 	actions[1]->fillText(2, "to u!");
 
 	actions[2]= new CardAction();
 	spaces[2].ChangeName("BUFFE");
-	spaces[2].ChangeOwner(' ');
 	actions[2]->fillText(0, "DRAW ");
 	actions[2]->fillText(1, "a    ");
 	actions[2]->fillText(2, "CARD!");
