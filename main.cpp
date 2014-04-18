@@ -34,7 +34,8 @@ Space *spaces; //later to be dynamically allocated. Tracks the number of spaces
 char Characters[]= {'A', 'R', 'C', 'J', 'G', 'P', 'B', 'W', 'Z', 'D', 'M', '\0'};
 int winnerOVER=0; //if = to 1, the game is over and a winner has been declared!
 int rounds = 0; //keeps track of the number of turns that go by.
-
+int LoserSwitch =0; //makes it so the losers are printed only once
+int lost[4]; //tracks which have lost and have been posted already so the below parts are not repeatedly outputed every turn.
 //**********************************************************************
 //********************MAIN**********************************************
 int main () {
@@ -204,6 +205,9 @@ void GameRounds() {
 				if (enternow=="R") {
 					players[i].Lost();
 					cout << players[i].name << " has resigned." << endl;
+					int temp1 = players[i].CashChecker(); //keeps track of money that needs to be transfered to the bank
+					players[i].moneymove(-temp1);
+					players[player_num+1].moneymove(temp1);
 				}
 				if (enternow.empty()) { //utilizes the empty line to continue
 					enternow ="a";
@@ -275,19 +279,31 @@ void declareWinners() { //checks for the winners
 } //end of declareWinners
 
 void setLosers() {
-		int temp; //tracks customers
-		int temp2; //tracks money
+	int temp=5; //tracks customers
+	int temp2=5; //tracks money
+	if(LoserSwitch ==0) {
+		for (int i=0; i<4; i++) {
+			lost[i]=0;
+		} //fill the array with zeros.
+		LoserSwitch=1;
+	}
+
 	for (int i=0; i<player_num; i++) { //checks the customercards
-		temp = players[i].CustomerChecker();
-		if(temp==0) {
-			cout <<"Player " << players[i].name << " has lost and owns 0 customers now." << endl;
-			players[i].Lost();
+		if(lost[i]==0) {
+			temp = players[i].CustomerChecker();
+			if(temp==0) {
+				cout <<"Player " << players[i].name << " has lost and owns 0 customers now." << endl;
+				players[i].Lost();
+				lost[i]=1;
+			}
+			temp2 = players[i].CashChecker(); //checks if there is any money in the bank.
+			if (temp2<=0) {
+				cout <<"Player " << players[i].name << " has lost and owns $0 now." << endl;
+				players[i].Lost();
+				lost[i]=1;
+			}
 		}
-		temp2 = players[i].CashChecker(); //checks if there is any money in the bank.
-		if (temp2<=0) {
-			cout <<"Player " << players[i].name << " has lost and owns $0 now." << endl;
-			players[i].Lost();
-		}
+		
 	}
 }
 
@@ -325,6 +341,7 @@ void DemoDay() {
 			int Demo =rand() % 100 + 1; //selects a random number from 1 to 100.
 			playerscores = players[i].ScoreChecker();
 			if (playerscores > Demo) {
+				cout << "Congrats you won money!" << endl;
 				int chance=rand()%100+1;
 				if (chance <=25) {
 					players[i].moneymove(500);
