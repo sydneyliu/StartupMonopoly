@@ -27,5 +27,5 @@ void MoneyAction::pay_money(Player &p, int amount)
 
 void MoneyAction::executeAction()
 {
-    cout << _money << endl;
+    
 }

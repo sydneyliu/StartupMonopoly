@@ -30,6 +30,7 @@ void setLosers(); //sets players as losers if they lose all of their customers
 void organizeLosers(); //organizes the losers so they won't get a turn anymore in the game
 void GameProgress(); //gives an update on the progress of the game
 void executeAction( Action& a); //execute action
+void properties(int); //charges and makes the purchases of property
 
 //*****************GLOBAL VARIABLES******************************
 const int NumSpaces = 40; //the number of spaces there are on the board
@@ -228,10 +229,18 @@ void GameRounds() {
 					mover2-=40;
 				}
 				players[i].move(spaces[mover1], spaces[mover2], i, die); //adds to currentSpace
-				printBoard(); //prints the board
 				spaces[mover1].pieces[i]=' '; //updates the position in the board
 				spaces[mover2].pieces[i]=players[i].name;
+				printBoard(); //prints the board
 				cout << players[i].name << " rolled a " << die << ". Move " << die+1 << " spaces." << endl;
+
+				//executes the actions that are on the game board
+				cout << "You have landed on "<< spaces[mover2].printedName <<"!"<< endl;
+				actions[mover2]->executeAction();
+
+				//ends the actions that are execution
+				properties(i);
+
 				if (1 > 2) { //if one company is 10x larger than another company
 					int x; //larger company
 					int y; //smaller company
@@ -411,6 +420,41 @@ void executeAction( Action& a)
 {
     a.executeAction();
     cout << "Test" << endl;
+}
+
+void properties(int player) {
+	//each property costs a random number between $500 and $1500
+	string userResponse;
+	int price = rand()%1000 + 500;
+	do {
+		cout << "Would you like to purchase this property for $" << price << "? Please type Yes or No." << endl;
+		cin >> userResponse;
+		if(cin.fail()) {
+			cin.clear();
+			cin.ignore(100000, '\n');
+			cout << "Not an number, please put a number!" << endl;
+			continue;
+		}
+		if (userResponse == "Yes" || userResponse=="YES") {
+			cout << "You now own this!" << endl;
+			string enternow1;
+			getline(cin, enternow1);
+			if (enternow1.empty()) { //utilizes the empty line to continue
+				enternow1 ="a";
+			}
+			break;
+		}
+		if (userResponse == "No" || userResponse=="NO") {
+			string enternow1;
+			getline(cin, enternow1);
+			if (enternow1.empty()) { //utilizes the empty line to continue
+				enternow1 ="a";
+			}
+			break;
+		}
+		continue;
+	} while(true);
+
 }
 
 void printCompleteRow(int start, int end) {
