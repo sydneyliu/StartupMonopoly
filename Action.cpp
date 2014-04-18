@@ -12,18 +12,25 @@ Action::Action()
 {
 }
 
-Action::Action(string name)
+Action::Action(string name1)
 {
-	_name = name;
+	name = name;
 }
 
 Action::~Action() {
 	
 }
 
-string Action::print_name()
+string Action::print_name(int number)
 {
-	return _name;
+	return text[number];
+}
+
+string Action::fillText(int num, string actions) {
+
+	text[num] = actions;
+	return actions;
+
 }
 
 

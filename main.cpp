@@ -7,8 +7,9 @@
 #include <cstdlib>
 #include <iomanip>
 #include "MoneyAction.h"
-#include "MoveAction.h"
+#include "CardAction.h"
 #include "GotoAction.h"
+#include "Bank.h"
 using namespace std;
 
 
@@ -28,12 +29,15 @@ void Acquisition(int, int); //if a company has 10x the amount another company do
 void setLosers(); //sets players as losers if they lose all of their customers
 void organizeLosers(); //organizes the losers so they won't get a turn anymore in the game
 void GameProgress(); //gives an update on the progress of the game
+void executeAction( Action& a); //execute action
 
 //*****************GLOBAL VARIABLES******************************
 const int NumSpaces = 40; //the number of spaces there are on the board
 int player_num; //tracks the number of players
 Player *players; //later to be dynamically allocated. Tracks number of players
 Space *spaces; //later to be dynamically allocated. Tracks the number of spaces
+Bank *bank; //creates an instance of the bank
+Action *actions[40]; //for actions
 char Characters[]= {'A', 'R', 'C', 'J', 'G', 'P', 'B', 'W', 'Z', 'D', 'M', '\0'};
 int winnerOVER=0; //if = to 1, the game is over and a winner has been declared!
 int rounds = 0; //keeps track of the number of turns that go by.
@@ -53,6 +57,7 @@ CheckPlayers(); //gives the number of players playing the game
 //DYNAMICALLY ALLOCATE ARRAYS for the number of players and Squares
 players = new Player[player_num+1]; //player_num+1 is the Bank
 spaces = new Space[NumSpaces]; //in this case there are 40 squares
+bank = new Bank[1]; //Declares the bank
 SpecificSpaces(); //fills the spaces
 //PIECE SELECTION
 
@@ -65,7 +70,7 @@ getline(cin, startgame);
 if (startgame.empty()) {
 	startgame ="a";
 }
-players[player_num+1].moneymove(10000000); //starts the bank out with a lot of money
+bank[0].money = 1000000000; //starts the bank out with a lot of money
 
 //****************GAME PLAY STARTS******************************
 GameRounds();
@@ -75,6 +80,7 @@ GameRounds();
 
 delete[] players;
 delete[] spaces;
+delete[] bank;
 
 	return 0;
 }
@@ -210,7 +216,7 @@ void GameRounds() {
 					cout << players[i].name << " has resigned." << endl;
 					int temp1 = players[i].CashChecker(); //keeps track of money that needs to be transfered to the bank
 					players[i].moneymove(-temp1);
-					players[player_num+1].moneymove(temp1);
+					bank[0].money+=temp1;
 				}
 				if (enternow.empty()) { //utilizes the empty line to continue
 					enternow ="a";
@@ -299,7 +305,7 @@ void setLosers() {
 				players[i].Lost();
 				lost[i]=1;
 			}
-			temp2 = players[i].CashChecker(); //checks if there is any money in the bank.
+			temp2 = players[i].CashChecker(); //checks if there is any money in that player
 			if (temp2<=0) {
 				cout <<"Player " << players[i].name << " has lost and owns $0 now." << endl;
 				players[i].Lost();
@@ -389,7 +395,7 @@ void GameProgress() { //updates the progress of the game and shows the overall s
 		cout << "-";
 	}
 	cout << endl;
-	cout << "Bank currently has: $" << players[player_num+1].CashChecker() << endl;
+	cout << "Bank currently has: $" << bank[0].money << endl;
 	for (int i = 0; i<player_num; i++) {
 		cout << players[i].name << " has $" << players[i].CashChecker();
 		if(players[i].checkLost()==0) {
@@ -398,6 +404,13 @@ void GameProgress() { //updates the progress of the game and shows the overall s
 		cout << endl;
 	}
 
+}
+
+
+void executeAction( Action& a)
+{
+    a.executeAction();
+    cout << "Test" << endl;
 }
 
 void printCompleteRow(int start, int end) {
@@ -425,20 +438,20 @@ void printCompleteRow(int start, int end) {
 		}
 	//THIRD ROW through FIFTH ROW, ACTIONS
 		for (int i =0; i<11; i++) { //Action 1
-			cout << "|" << setw(3) << " " <<setw(5) << spaces[start+i].printedAction1  << setw(2) << " ";
+			cout << "|" << setw(3) << " " <<setw(5) << actions[start+i]->print_name(0) << setw(2) << " ";
 			if (i==10) {
 				cout << "|" << endl;
 			}
 		}
 
 		for (int i =0; i<11; i++) { //Action 2
-			cout << "|" << setw(3) << " " << setw(5) << spaces[start+i].printedAction2 << setw(2) << " ";
+			cout << "|" << setw(3) << " " << setw(5) << actions[start+i]->print_name(1) << setw(2) << " ";
 			if (i==10) {
 				cout << "|" << endl;
 			}
 		}
 		for (int i =0; i<11; i++) { //Action 3
-			cout << "|" << setw(3) << " " << setw(5)<< spaces[start+i].printedAction3 << setw(2) << " ";
+			cout << "|" << setw(3) << " " << setw(5)<< actions[start+i]->print_name(2)<< setw(2) << " ";
 			if (i==10) {
 				cout << "|" << endl;
 			}
@@ -505,20 +518,20 @@ void printCompleteRow(int start, int end) {
 		}
 	//THIRD ROW through FIFTH ROW, ACTIONS
 		for (int i =0; i<11; i++) { //Action 1
-			cout << "|" << setw(3) << " " << setw(5) << spaces[start-i].printedAction1 << setw(2) << " ";
+			cout << "|" << setw(3) << " " << setw(5) << actions[start-i]->print_name(0) << setw(2) << " ";
 			if (i==10) {
 				cout << "|" << endl;
 			}
 		}
 
 		for (int i =0; i<11; i++) { //Action 2
-			cout << "|" << setw(3) << " " << setw(5) << spaces[start-i].printedAction2 << setw(2) << " ";
+			cout << "|" << setw(3) << " " << setw(5) << actions[start-i]->print_name(1) << setw(2) << " ";
 			if (i==10) {
 				cout << "|" << endl;
 			}
 		}
 		for (int i =0; i<11; i++) { //Action 3
-			cout << "|" << setw(3) << " " << setw(5) << spaces[start-i].printedAction3 << setw(2) << " ";
+			cout << "|" << setw(3) << " " << setw(5) << actions[start-i]->print_name(2)<< setw(2) << " ";
 			if (i==10) {
 				cout << "|" << endl;
 			}
@@ -577,9 +590,9 @@ void printIncompleteRow(int start, int end, bool Bottom) { //Bottom hecks if you
 	cout << "|" << "----------" << "|" << setw(98) << " " << "|" << "----------" << "|" << endl;
 
 	//THIRD ROW through FIFTH ROW, ACTIONS
-	cout << "|" << setw(3) << " " << setw(5) << spaces[start].printedAction1 << setw(2) << " " << "|" << setw(98) << " " << "|" << setw(3) << " " << setw(5) << spaces[end].printedAction1 << setw(2) << " " << "|" << endl;
-	cout << "|" << setw(3) << " " << setw(5) << spaces[start].printedAction2 << setw(2) << " " << "|" << setw(98) << " " << "|" << setw(3) << " " << setw(5) << spaces[end].printedAction2 << setw(2) << " " << "|" << endl;
-	cout << "|" << setw(3) << " " << setw(5) << spaces[start].printedAction3 << setw(2) << " " << "|" << setw(98) << " " << "|" << setw(3) << " " << setw(5) << spaces[end].printedAction3 << setw(2) << " " << "|" << endl;
+	cout << "|" << setw(3) << " " << setw(5) << actions[start] ->print_name(0) << setw(2) << " " << "|" << setw(98) << " " << "|" << setw(3) << " " << setw(5) << actions[end]->print_name(0) << setw(2) << " " << "|" << endl;
+	cout << "|" << setw(3) << " " << setw(5) << actions[start] ->print_name(1)<< setw(2) << " " << "|" << setw(98) << " " << "|" << setw(3) << " " << setw(5) << actions[end]->print_name(1) << setw(2) << " " << "|" << endl;
+	cout << "|" << setw(3) << " " << setw(5) << actions[start] ->print_name(2) << setw(2) << " " << "|" << setw(98) << " " << "|" << setw(3) << " " << setw(5) << actions[end]->print_name(2) << setw(2) << " " << "|" << endl;
 
 	//Sixth Row, a line of ------
 	cout << "|" << "----------" << "|" << setw(98) << " " << "|" << "----------" << "|" << endl;
@@ -612,208 +625,327 @@ void printBoard() {
 }
 
 void SpecificSpaces() { //hardcodes specific info into the spaces
-	
+
+	actions[0]=new GotoAction(); //just set it to go to Home
 	spaces[0].ChangeName("HOME!");
 	spaces[0].ChangeOwner(' ');
-	spaces[0].AddActions("     ","     ","     "); //the home button has no changes on it.
-
-
+	actions[0]->fillText(0, "     ");
+	actions[0]->fillText(1, "     ");
+	actions[0]->fillText(2, "     ");
+	
+	actions[1]= new MoneyAction();
 	spaces[1].ChangeName("HOROW");
 	spaces[1].ChangeOwner(' ');
-	spaces[1].AddActions("Add  ","$500 ","to u!");
+	actions[1]->fillText(0, "Add  ");
+	actions[1]->fillText(1, "$500 ");
+	actions[1]->fillText(2, "to u!");
 
-
+	actions[2]= new CardAction();
 	spaces[2].ChangeName("BUFFE");
 	spaces[2].ChangeOwner(' ');
-	spaces[2].AddActions("DRAW ","a    ","CARD!");
+	actions[2]->fillText(0, "DRAW ");
+	actions[2]->fillText(1, "a    ");
+	actions[2]->fillText(2, "CARD!");
 
 
+	actions[3]= new GotoAction();
 	spaces[3].ChangeName("BAD$$");
 	spaces[3].ChangeOwner(' ');
-	spaces[3].AddActions("GO TO","DELAY","     ");
+	actions[3]->fillText(0, "GO TO");
+	actions[3]->fillText(1, "DELAY");
+	actions[3]->fillText(2, "     ");
 
 
+	actions[4]= new MoneyAction();
 	spaces[4].ChangeName("RICKR");
 	spaces[4].ChangeOwner(' ');
-	spaces[4].AddActions("Add  ","$1000","to u!");
+	actions[4]->fillText(0, "Add  ");
+	actions[4]->fillText(1, "$1000");
+	actions[4]->fillText(2, "to u!");
 
 
+	actions[5]= new MoneyAction();
 	spaces[5].ChangeName("GATES");
 	spaces[5].ChangeOwner(' ');
-	spaces[5].AddActions("Add  ","$600 ","to u!");
+	actions[5]->fillText(0, "Add  ");
+	actions[5]->fillText(1, "$600 ");
+	actions[5]->fillText(2, "to u!");
 
 
+	actions[6]= new CardAction();
 	spaces[6].ChangeName("ANGEL");
 	spaces[6].ChangeOwner(' ');
-	spaces[6].AddActions("DRAW ","a    ","CARD!");
+	actions[6]->fillText(0, "DRAW ");
+	actions[6]->fillText(1, "a    ");
+	actions[6]->fillText(2, "CARD!");
 
 
+	actions[7]= new MoneyAction();
 	spaces[7].ChangeName("SEANP");
 	spaces[7].ChangeOwner(' ');
-	spaces[7].AddActions("Add  ","$200 ","to u!");
+	actions[7]->fillText(0, "Add  ");
+	actions[7]->fillText(1, "$200 ");
+	actions[7]->fillText(2, "to u!");
 
 
+
+	actions[8]= new MoneyAction();
 	spaces[8].ChangeName("BOGLE");
 	spaces[8].ChangeOwner(' ');
-	spaces[8].AddActions("Add  ","$600 ","to u!");
+	actions[8]->fillText(0, "Add  ");
+	actions[8]->fillText(1, "$600 ");
+	actions[8]->fillText(2, "to u!");
 
 
+	actions[9]= new CardAction();
 	spaces[9].ChangeName("LYNCH");
 	spaces[9].ChangeOwner(' ');
-	spaces[9].AddActions("DRAW ","a    ","CARD!");
+	actions[9]->fillText(0, "DRAW ");
+	actions[9]->fillText(1, "a    ");
+	actions[9]->fillText(2, "CARD!");
 
 
+
+	actions[10] = new GotoAction(); //set it to Growt
 	spaces[10].ChangeName("GROWT");
 	spaces[10].ChangeOwner(' ');
-	spaces[10].AddActions("     ","     ","     ");
+	actions[10]->fillText(0, "     ");
+	actions[10]->fillText(1, "     ");
+	actions[10]->fillText(2, "     ");
 
 
+
+	actions[11]= new MoneyAction();	
 	spaces[11].ChangeName("DELAY");
 	spaces[11].ChangeOwner(' ');
-	spaces[11].AddActions("LOSE ","$200 ","     ");
+	actions[11]->fillText(0, "LOSE ");
+	actions[11]->fillText(1, "$200 ");
+	actions[11]->fillText(2, "     ");
 
 
+	actions[12]= new CardAction();
 	spaces[12].ChangeName("LUCKY");
 	spaces[12].ChangeOwner(' ');
-	spaces[12].AddActions("+8000","SKIP!","CARD.");
+	actions[12]->fillText(0, "DRAW ");
+	actions[12]->fillText(1, "a    ");
+	actions[12]->fillText(2, "CARD!");
 
 
+	actions[13]= new MoneyAction();
 	spaces[13].ChangeName("COMPE");
 	spaces[13].ChangeOwner(' ');
-	spaces[13].AddActions("LOSE ","$800 ","     ");
+	actions[13]->fillText(0, "LOSE ");
+	actions[13]->fillText(1, "$800 ");
+	actions[13]->fillText(2, "     ");
 
 
+	actions[14] = new GotoAction();
 	spaces[14].ChangeName("MENTO");
 	spaces[14].ChangeOwner(' ');
-	spaces[14].AddActions("     ","     ","     ");
+	actions[14]->fillText(0, "     ");
+	actions[14]->fillText(1, "     ");
+	actions[14]->fillText(2, "     ");
 
 
+	actions[15]= new MoneyAction();
 	spaces[15].ChangeName("MISSE");
 	spaces[15].ChangeOwner(' ');
-	spaces[15].AddActions("LOSE ","$500 ","     ");
+	actions[15]->fillText(0, "LOSE ");
+	actions[15]->fillText(1, "$200 ");
+	actions[15]->fillText(2, "     ");
 
 
+	actions[16]= new MoneyAction();
 	spaces[16].ChangeName("EMERG");
 	spaces[16].ChangeOwner(' ');
-	spaces[16].AddActions("LOSE ","$400 ","     ");
+	actions[16]->fillText(0, "LOSE ");
+	actions[16]->fillText(1, "$400 ");
+	actions[16]->fillText(2, "     ");
 
 
+	actions[17]= new CardAction();
 	spaces[17].ChangeName("OFFIC");
 	spaces[17].ChangeOwner(' ');
-	spaces[17].AddActions("DRAW ","a    ","CARD!");
+	actions[17]->fillText(0, "DRAW ");
+	actions[17]->fillText(1, "a    ");
+	actions[17]->fillText(2, "CARD!");
 
 
+	actions[18]= new GotoAction();	
 	spaces[18].ChangeName("RELOC");
 	spaces[18].ChangeOwner(' ');
-	spaces[18].AddActions("GO TO","ANGEL","     ");
+	actions[3]->fillText(0, "GO TO");
+	actions[3]->fillText(1, "ANGEL");
+	actions[3]->fillText(2, "     ");
 
 
+
+	actions[19]= new CardAction();
 	spaces[19].ChangeName("LUCKE");
 	spaces[19].ChangeOwner(' ');
-	spaces[19].AddActions("DRAW ","a    ","CARD!");
+	actions[19]->fillText(0, "DRAW ");
+	actions[19]->fillText(1, "a    ");
+	actions[19]->fillText(2, "CARD!");
 
 
+
+	actions[20]= new CardAction();
 	spaces[20].ChangeName("NEWSP");
 	spaces[20].ChangeOwner(' ');
-	spaces[20].AddActions("DRAW ","a    ","CARD!");
+	actions[20]->fillText(0, "DRAW ");
+	actions[20]->fillText(1, "a    ");
+	actions[20]->fillText(2, "CARD!");
 
 
+	actions[21]= new MoneyAction();
 	spaces[21].ChangeName("DESIG");
 	spaces[21].ChangeOwner(' ');
-	spaces[21].AddActions("LOSE ","$200 ","     ");
+	actions[21]->fillText(0, "LOSE ");
+	actions[21]->fillText(1, "$200 ");
+	actions[21]->fillText(2, "     ");
 
 
+	actions[22]= new MoneyAction();
 	spaces[22].ChangeName("SALES");
 	spaces[22].ChangeOwner(' ');
-	spaces[22].AddActions("Add  ","$3000","to u!");
+	actions[22]->fillText(0, "Add  ");
+	actions[22]->fillText(1, "$500 ");
+	actions[22]->fillText(2, "to u!");
 
 
+	actions[23]= new MoneyAction();
 	spaces[23].ChangeName("MARKE");
 	spaces[23].ChangeOwner(' ');
-	spaces[23].AddActions("Add  ","$1000","to u!");
+	actions[23]->fillText(0, "Add  ");
+	actions[23]->fillText(1, "$1000");
+	actions[23]->fillText(2, "to u!");
 
 
+	actions[24]= new MoneyAction();
 	spaces[24].ChangeName("LAWYE");
 	spaces[24].ChangeOwner(' ');
-	spaces[24].AddActions("LOSE ","$1000","     ");
+	actions[24]->fillText(0, "LOSE ");
+	actions[24]->fillText(1, "$2000");
+	actions[24]->fillText(2, "     ");
 
-
+	actions[25]= new MoneyAction();
 	spaces[25].ChangeName("PMFIT");
 	spaces[25].ChangeOwner(' ');
-	spaces[25].AddActions("Add  ","$500 ","to u!");
+	actions[25]->fillText(0, "Add  ");
+	actions[25]->fillText(1, "$500 ");
+	actions[25]->fillText(2, "to u!");
 
 
+	actions[26]= new CardAction();
 	spaces[26].ChangeName("ITERA");
 	spaces[26].ChangeOwner(' ');
-	spaces[26].AddActions("DRAW ","a    ","CARD!");
+	actions[26]->fillText(0, "DRAW ");
+	actions[26]->fillText(1, "a    ");
+	actions[26]->fillText(2, "CARD!");
 
 
-	spaces[26].ChangeName("PROGR");
-	spaces[26].ChangeOwner(' ');
-	spaces[26].AddActions("Add  ","$200 ","to u!");
-
-
+	actions[27]= new MoneyAction();
 	spaces[27].ChangeName("TEAM!");
 	spaces[27].ChangeOwner(' ');
-	spaces[27].AddActions("Add  ","$200 ","to u!");
+	actions[27]->fillText(0, "Add  ");
+	actions[27]->fillText(1, "$200 ");
+	actions[27]->fillText(2, "to u!");
 
 
+	actions[28]= new MoneyAction();
 	spaces[28].ChangeName("SMART");
 	spaces[28].ChangeOwner(' ');
-	spaces[28].AddActions("Add  ","$300 ","to u!");
+	actions[28]->fillText(0, "Add  ");
+	actions[28]->fillText(1, "$300 ");
+	actions[28]->fillText(2, "to u!");
 
 
+
+	actions[29]=new GotoAction(); //goto the SOCIL
 	spaces[29].ChangeName("SOCIL");
 	spaces[29].ChangeOwner(' ');
-	spaces[29].AddActions("     ","     ","     ");
+	actions[29]->fillText(0, "     ");
+	actions[29]->fillText(1, "     ");
+	actions[29]->fillText(2, "     ");
 
-
+	actions[30]= new MoneyAction();
 	spaces[30].ChangeName("HEALT");
 	spaces[30].ChangeOwner(' ');
-	spaces[30].AddActions("LOSE ","$700 ","     ");
+	actions[30]->fillText(0, "LOSE ");
+	actions[30]->fillText(1, "$500 ");
+	actions[30]->fillText(2, "     ");
 
 
+	actions[31]= new MoneyAction();
 	spaces[31].ChangeName("FAMIL");
 	spaces[31].ChangeOwner(' ');
-	spaces[31].AddActions("LOSE ","$200 ","     ");
+	actions[31]->fillText(0, "LOSE ");
+	actions[31]->fillText(1, "$200 ");
+	actions[31]->fillText(2, "     ");
 
 
+	actions[32]= new MoneyAction();
 	spaces[32].ChangeName("BABY!");
 	spaces[32].ChangeOwner(' ');
-	spaces[32].AddActions("LOSE ","$400 ","     ");
+	actions[32]->fillText(0, "LOSE ");
+	actions[32]->fillText(1, "$400 ");
+	actions[32]->fillText(2, "     ");
 
 
+	actions[33]= new MoneyAction();
 	spaces[33].ChangeName("SCARD");
 	spaces[33].ChangeOwner(' ');
-	spaces[33].AddActions("LOSE ","$300 ","     ");
+	actions[33]->fillText(0, "LOSE ");
+	actions[33]->fillText(1, "$300 ");
+	actions[33]->fillText(2, "     ");
 
 
+	actions[34]= new MoneyAction();
 	spaces[34].ChangeName("FORUN");
 	spaces[34].ChangeOwner(' ');
-	spaces[34].AddActions("Add  ","$100 ","to u!");
+	actions[34]->fillText(0, "Add  ");
+	actions[34]->fillText(1, "$100 ");
+	actions[34]->fillText(2, "to u!");
 
 
+	actions[35]= new MoneyAction();
 	spaces[35].ChangeName("TIMES");
 	spaces[35].ChangeOwner(' ');
-	spaces[35].AddActions("Add  ","$100 ","to u!");
+	actions[35]->fillText(0, "Add  ");
+	actions[35]->fillText(1, "$100 ");
+	actions[35]->fillText(2, "to u!");
 
 
+	actions[36]= new MoneyAction();
 	spaces[36].ChangeName("LEARN");
 	spaces[36].ChangeOwner(' ');
-	spaces[36].AddActions("Add  ","$200 ","to u!");
+	actions[36]->fillText(0, "Add  ");
+	actions[36]->fillText(1, "$200 ");
+	actions[36]->fillText(2, "to u!");
 
 
+
+	actions[37]= new MoneyAction();
 	spaces[37].ChangeName("TALTR");
 	spaces[37].ChangeOwner(' ');
-	spaces[37].AddActions("Add  ","$500 ","to u!");
+	actions[37]->fillText(0, "Add  ");
+	actions[37]->fillText(1, "$500 ");
+	actions[37]->fillText(2, "to u!");
 
 
+	actions[38]= new MoneyAction();
 	spaces[38].ChangeName("CONFE");
 	spaces[38].ChangeOwner(' ');
-	spaces[38].AddActions("LOSE ","$400 ","     ");
+	actions[38]->fillText(0, "LOSE ");
+	actions[38]->fillText(1, "$400 ");
+	actions[38]->fillText(2, "     ");
 
 
+	actions[39]= new GotoAction();
 	spaces[39].ChangeName("FLIPR");
 	spaces[39].ChangeOwner(' ');
-	spaces[39].AddActions("GO TO","TALTR","     ");
+	actions[39]->fillText(0, "GO TO");
+	actions[39]->fillText(1, "TALTR");
+	actions[39]->fillText(2, "     ");
+
 }

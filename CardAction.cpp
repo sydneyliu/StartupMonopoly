@@ -2,33 +2,33 @@
 #include "Player.h"
 #include "Action.h"
 #include "MoneyAction.h"
-#include "MoveAction.h"
+#include "CardAction.h"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <string>
 using namespace std;
 
-MoveAction::MoveAction()
+CardAction::CardAction()
 {
 }
 
-MoveAction::MoveAction(int spaces)
-{
-	_amount = spaces;
-}
-
-void MoveAction::set_amount(int spaces)
+CardAction::CardAction(int spaces)
 {
 	_amount = spaces;
 }
 
-int MoveAction::get_amount()
+void CardAction::set_amount(int spaces)
+{
+	_amount = spaces;
+}
+
+int CardAction::get_amount()
 {
 	return _amount;
 }
 
-void MoveAction::executeAction()
+void CardAction::executeAction()
 {
     cout << "in move action executeAction\n";
 }

@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "action.h"
-#include "player.h"
+#include "Action.h"
+#include "Player.h"
 
 using namespace std;
 

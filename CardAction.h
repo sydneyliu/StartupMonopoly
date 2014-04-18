@@ -1,5 +1,5 @@
-#ifndef MOVEACTION_H
-#define MOVEACTION_H
+#ifndef CARDACTION_H
+#define CARDACTION_H
 
 #include <string>
 
@@ -7,11 +7,11 @@
 
 using namespace std;
 
-class MoveAction : public Action
+class CardAction : public Action
 {
  public: 
-  MoveAction();
-  MoveAction(int spaces);
+  CardAction();
+  CardAction(int spaces);
 
   void set_amount(int spaces);
   int get_amount();

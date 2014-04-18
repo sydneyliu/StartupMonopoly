@@ -37,9 +37,9 @@ void Space::ChangeName(string newName) {
 }
 
 void Space::AddActions(string Act1, string Act2, string Act3) {
-	Actions.text[0]=Act1;
-	Actions.text[1]=Act2;
-	Actions.text[2]= Act3;
+	Actions->fillText(0, Act1);
+	Actions->fillText(1, Act2);
+	Actions->fillText(2, Act3);
 	printedAction1=Act1;
 	printedAction2=Act2;
 	printedAction3=Act3;

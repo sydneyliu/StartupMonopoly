@@ -11,11 +11,12 @@ class Action {
 		Action();
 		Action(string);
 		~Action();
-		string text[3]; //the number of lines in the board for the actions
-		//virtual void executeAction()=0; //pure virtual function execution
-		string print_name();
+		virtual void executeAction()=0; //pure virtual function execution
+		string print_name(int);
+		string fillText(int, string);
 	private:
-		string _name;
+		string name;
+		string text[3]; //the number of lines in the board for the actions
 
 };
 
