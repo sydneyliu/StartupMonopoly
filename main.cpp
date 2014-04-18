@@ -427,8 +427,8 @@ void properties(int playernum, int spacenum) { //deals with the buying and selli
 	string userResponse;
 	int price = rand()%1000 + 500; //prices are randomly generated
 	do {
-		if (price < players[playernum].CashChecker()) { //if player is not big enough, then skip this part
-			cout << "Would you like to purchase this property for $" << price << "? Please type Yes or No." << endl;
+		if (price < players[playernum].CashChecker() && spaces[spacenum].PrintOwner() == ' ') { //if player is not big enough, then skip this part
+			cout << "Would you like to purchase this for $" << price << "? Please type Yes or No." << endl;
 			cin >> userResponse;
 			if(cin.fail()) {
 				cin.clear();
@@ -440,7 +440,7 @@ void properties(int playernum, int spacenum) { //deals with the buying and selli
 				spaces[spacenum].ChangeOwner(players[playernum].name); //changes the owner of the square
 				players[playernum].moneymove(-price);
 				bank[0].money +=price;
-				cout << "You now own this!" << endl;
+				cout << "You now own this! Congratulations!" << endl;
 				string enternow1;
 				getline(cin, enternow1);
 				if (enternow1.empty()) { //utilizes the empty line to continue
