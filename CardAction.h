@@ -19,6 +19,7 @@ class CardAction : public Action
 
  protected:
   int deck_num; //is it deck number one or two?
+  int MoneyDeck[50]; //decks of moneyCards
 
 };
 
