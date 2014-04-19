@@ -688,7 +688,7 @@ void printBoard() {
 
 void SpecificSpaces() { //hardcodes specific info into the spaces
 
-	actions[0]=new GotoAction(); //just set it to go to Home
+	actions[0]=new GotoAction(0); //just set it to go to Home
 	spaces[0].ChangeName("HOME!");
 	actions[0]->fillText(0, "     ");
 	actions[0]->fillText(1, "     ");
@@ -707,7 +707,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[2]->fillText(2, "CARD!");
 
 
-	actions[3]= new GotoAction();
+	actions[3]= new GotoAction(11);
 	spaces[3].ChangeName("BAD$$");
 	spaces[3].ChangeOwner(' ');
 	actions[3]->fillText(0, "GO TO");
@@ -765,7 +765,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 
 
-	actions[10] = new GotoAction(); //set it to Growt
+	actions[10] = new GotoAction(10); //set it to Growt
 	spaces[10].ChangeName("GROWT");
 	spaces[10].ChangeOwner(' ');
 	actions[10]->fillText(0, "     ");
@@ -798,7 +798,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[13]->fillText(2, "     ");
 
 
-	actions[14] = new GotoAction();
+	actions[14] = new GotoAction(14);
 	spaces[14].ChangeName("MENTO");
 	spaces[14].ChangeOwner(' ');
 	actions[14]->fillText(0, "     ");
@@ -920,7 +920,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 
 
-	actions[29]=new GotoAction(); //goto the SOCIL
+	actions[29]=new GotoAction(29); //goto the SOCIL
 	spaces[29].ChangeName("SOCIL");
 	spaces[29].ChangeOwner(' ');
 	actions[29]->fillText(0, "     ");
@@ -1000,7 +1000,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[38]->fillText(2, "     ");
 
 
-	actions[39]= new GotoAction();
+	actions[39]= new GotoAction(37);
 	spaces[39].ChangeName("FLIPR");
 	spaces[39].ChangeOwner(' ');
 	actions[39]->fillText(0, "GO TO");
