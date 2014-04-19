@@ -244,6 +244,13 @@ void GameRounds() {
 				cout << "You have landed on "<< spaces[mover2].printedName <<"!"<< endl;
 				actions[mover2]->executeAction(&players[i]);
 
+				if ((players[i].currentSpace)!=mover2) { // moves players when Moveaction comes up
+					spaces[mover2].pieces[i]=' '; //updates the position in the board
+					spaces[players[i].currentSpace].pieces[i]=players[i].name;
+					cout << "Player " << players[i].name << " has been moved to "<< spaces[players[i].currentSpace].PrintName() << endl;
+					actions[players[i].currentSpace]->executeAction(&players[i]);
+				}
+
 				//ends the actions that are execution
 				properties(i, mover2);
 
@@ -727,7 +734,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	spaces[5].ChangeName("GATES");
 	spaces[5].ChangeOwner(' ');
 	actions[5]->fillText(0, "Add  ");
-	actions[5]->fillText(1, "$600 ");
+	actions[5]->fillText(1, "$6000");
 	actions[5]->fillText(2, "to u!");
 
 
@@ -830,12 +837,12 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[17]->fillText(2, "CARD!");
 
 
-	actions[18]= new GotoAction();	
+	actions[18]= new GotoAction(6);	
 	spaces[18].ChangeName("RELOC");
 	spaces[18].ChangeOwner(' ');
-	actions[3]->fillText(0, "GO TO");
-	actions[3]->fillText(1, "ANGEL");
-	actions[3]->fillText(2, "     ");
+	actions[18]->fillText(0, "GO TO");
+	actions[18]->fillText(1, "ANGEL");
+	actions[18]->fillText(2, "     ");
 
 
 
@@ -988,7 +995,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	spaces[37].ChangeName("TALTR");
 	spaces[37].ChangeOwner(' ');
 	actions[37]->fillText(0, "Add  ");
-	actions[37]->fillText(1, "$500 ");
+	actions[37]->fillText(1, "$9000");
 	actions[37]->fillText(2, "to u!");
 
 

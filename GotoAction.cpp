@@ -21,5 +21,7 @@ GotoAction::GotoAction(int square)
 
 void GotoAction::executeAction(Player *q)
 {
-    cout << "in GotoAction executeAction\n";
+    q->currentSpace = _square;
+	//spaces[mover1].pieces[i]=' '; //updates the position in the board
+	//spaces[mover2].pieces[i]=players[i].name;
 }
