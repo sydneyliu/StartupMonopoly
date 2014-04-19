@@ -1,11 +1,11 @@
 //main.cpp
-#include "Space.h"
-#include "Player.h"
-#include "Action.h"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <iomanip>
+#include "Space.h"
+#include "Player.h"
+#include "Action.h"
 #include "MoneyAction.h"
 #include "CardAction.h"
 #include "GotoAction.h"
@@ -707,10 +707,10 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[1]->fillText(1, "$500 ");
 	actions[1]->fillText(2, "to u!");
 
-	actions[2]= new CardAction();
+	actions[2]= new CardAction(1);
 	spaces[2].ChangeName("BUFFE");
 	actions[2]->fillText(0, "DRAW ");
-	actions[2]->fillText(1, "a    ");
+	actions[2]->fillText(1, "MONEY");
 	actions[2]->fillText(2, "CARD!");
 
 
@@ -738,11 +738,11 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[5]->fillText(2, "to u!");
 
 
-	actions[6]= new CardAction();
+	actions[6]= new CardAction(2);
 	spaces[6].ChangeName("ANGEL");
 	spaces[6].ChangeOwner(' ');
 	actions[6]->fillText(0, "DRAW ");
-	actions[6]->fillText(1, "a    ");
+	actions[6]->fillText(1, "CUSTO");
 	actions[6]->fillText(2, "CARD!");
 
 
@@ -763,11 +763,11 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[8]->fillText(2, "to u!");
 
 
-	actions[9]= new CardAction();
+	actions[9]= new CardAction(1);
 	spaces[9].ChangeName("LYNCH");
 	spaces[9].ChangeOwner(' ');
 	actions[9]->fillText(0, "DRAW ");
-	actions[9]->fillText(1, "a    ");
+	actions[9]->fillText(1, "MONEY");
 	actions[9]->fillText(2, "CARD!");
 
 
@@ -789,11 +789,11 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[11]->fillText(2, "     ");
 
 
-	actions[12]= new CardAction();
+	actions[12]= new CardAction(2);
 	spaces[12].ChangeName("LUCKY");
 	spaces[12].ChangeOwner(' ');
 	actions[12]->fillText(0, "DRAW ");
-	actions[12]->fillText(1, "a    ");
+	actions[12]->fillText(1, "CUSTO");
 	actions[12]->fillText(2, "CARD!");
 
 
@@ -829,11 +829,11 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[16]->fillText(2, "     ");
 
 
-	actions[17]= new CardAction();
+	actions[17]= new CardAction(1);
 	spaces[17].ChangeName("OFFIC");
 	spaces[17].ChangeOwner(' ');
 	actions[17]->fillText(0, "DRAW ");
-	actions[17]->fillText(1, "a    ");
+	actions[17]->fillText(1, "MONEY");
 	actions[17]->fillText(2, "CARD!");
 
 
@@ -846,20 +846,20 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 
 
-	actions[19]= new CardAction();
+	actions[19]= new CardAction(1);
 	spaces[19].ChangeName("LUCKE");
 	spaces[19].ChangeOwner(' ');
 	actions[19]->fillText(0, "DRAW ");
-	actions[19]->fillText(1, "a    ");
+	actions[19]->fillText(1, "MONEY");
 	actions[19]->fillText(2, "CARD!");
 
 
 
-	actions[20]= new CardAction();
+	actions[20]= new CardAction(1);
 	spaces[20].ChangeName("NEWSP");
 	spaces[20].ChangeOwner(' ');
 	actions[20]->fillText(0, "DRAW ");
-	actions[20]->fillText(1, "a    ");
+	actions[20]->fillText(1, "MONEY");
 	actions[20]->fillText(2, "CARD!");
 
 
@@ -902,11 +902,11 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[25]->fillText(2, "to u!");
 
 
-	actions[26]= new CardAction();
+	actions[26]= new CardAction(2);
 	spaces[26].ChangeName("ITERA");
 	spaces[26].ChangeOwner(' ');
 	actions[26]->fillText(0, "DRAW ");
-	actions[26]->fillText(1, "a    ");
+	actions[26]->fillText(1, "CUSTO");
 	actions[26]->fillText(2, "CARD!");
 
 

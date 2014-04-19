@@ -12,7 +12,8 @@ class CardAction : public Action
  public: 
   CardAction();
   CardAction(int decks);
-
+  void deck1(Player *a);
+  void deck2(Player *a);
   void executeAction(Player *q);
 
 
