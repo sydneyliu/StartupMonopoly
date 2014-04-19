@@ -11,16 +11,13 @@ class CardAction : public Action
 {
  public: 
   CardAction();
-  CardAction(int spaces);
-
-  void set_amount(int spaces);
-  int get_amount();
+  CardAction(int decks);
 
   void executeAction(Player *q);
 
 
  protected:
-  int _amount;
+  int deck_num; //is it deck number one or two?
 
 };
 

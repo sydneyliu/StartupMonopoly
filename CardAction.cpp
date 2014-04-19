@@ -13,19 +13,9 @@ CardAction::CardAction()
 {
 }
 
-CardAction::CardAction(int spaces)
+CardAction::CardAction(int decks)
 {
-	_amount = spaces;
-}
-
-void CardAction::set_amount(int spaces)
-{
-	_amount = spaces;
-}
-
-int CardAction::get_amount()
-{
-	return _amount;
+	deck_num=decks; //sees which type of deck to use
 }
 
 void CardAction::executeAction(Player *q)
