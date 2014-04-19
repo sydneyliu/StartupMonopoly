@@ -23,8 +23,8 @@ void Space::ChangeOwner(char buyer) { //when somebody takes and owns a space
 	owner = buyer;
 }
 
-void Space::PrintName() {
-	cout << name;
+string Space::PrintName() {
+	return name;
 }
 
 char Space::PrintOwner() {

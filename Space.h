@@ -10,7 +10,7 @@ class Space {
 		~Space();
 		char pieces[4]; //keeps track of the pieces that are on that square	
 		void ChangeOwner(char); //tracks the owner of the space
-		void PrintName();
+		string PrintName();
 		char PrintOwner();
 		void ChangeName(string);
 		void AddActions(string, string, string);

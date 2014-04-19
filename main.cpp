@@ -218,6 +218,12 @@ void GameRounds() {
 					int temp1 = players[i].CashChecker(); //keeps track of money that needs to be transfered to the bank
 					players[i].moneymove(-temp1);
 					bank[0].money+=temp1;
+					for (int j=0; j<40; j++) { //removes their property if resign
+						if (spaces[j].PrintOwner() == players[i].name) {
+							spaces[j].ChangeOwner(' ');
+							cout << "Property " << spaces[j].PrintName() << " has been released." << endl; 
+						}
+					}
 				}
 				if (enternow.empty()) { //utilizes the empty line to continue
 					enternow ="a";
