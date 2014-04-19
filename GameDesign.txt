@@ -26,28 +26,29 @@ Game Objective:
 
 The characters go through the startup process and with a little help of luck to beat out the other startups and become a billion dollar company.
 
-There are 10 customer cards total. Companies lose when they have no company cards or no money. Your mission is to be the last company standing or reach 1 billion dollars.
+Companies lose when they have no company cards or no money. Your mission is to be the last company standing, have the highest score when 40 turns is reached, or reach 1 billion dollars first. That is how you win.
 
 Game Rules
 **********
 Each company starts with 2 customer cards each and 1.5 million dollars in the bank.
 
-Players roll a die to move around the board and collect advisors, funding, etc. along the way.
+Players roll a die to move around the board and collect advisors, funding, etc. along the way. The squares represent these elements. It is possible to purchase these elements. These spaces do not charge rent, but provide HUGE returns on investment if they are purchased becase you get money if you land on them.
 
-The player with the most customer cards (must be a sole leader) gets to move twice a turn.
 
 Metrics:
---Company Score: A general rating for the company based on money, product, growth, etc. Scale of 1-10
+--Company Score: A general rating for the company based on money, product, growth, etc. Scale of 1-10. The company score moves as companies progress.
 --Money: The money in the bank (from investments and sales). Kept track in hundreds of thousand of dollars
 
-Every turn there is an opportunity to launch a new product if the players choose to. Product launches cost (1 million dollars * # of previous products * 10) but allow for growth and profit in future rounds.
+Every turn there is an opportunity to launch a new product if the players choose to. Product launches cost (1 million dollars * # of previous products * 10) but allow for growth and profit in future rounds. (NOT IMPLEMENTED, but not in requirements)
 
 Every 5 turns there is a demo day where players meet investors. The probability of getting an investment increases as the company score increases.
 
-If a player's company is worth 10 times another company, it can choose to acquire the company. An acquisition means the player gets all customer cards the other company owns as well as any products.
+If a player's company is worth 10 times another company, it can choose to acquire the company. An acquisition means the player gets all customer cards the other company owns as well as any products. (NOT IMPLEMENTED, but not in requirements)
 
 
-At 30 turns, the top 50% of companies go IPO. Money in the bank doubles for each company that goes IPO.
+At 30 turns, the top 50% of companies go IPO. Money in the bank doubles for each company that goes IPO, but they no longer win if they get to 1 billion dollars. (NOT IMPLEMENTED, but not in requirements)
+
+If 40 turns go by, then the final scores are posted. They are callibrated using both the customer cards and the amount of money in the bank.
 *************************************************************
 
 GAMEDESIGN WRITEUP
@@ -56,6 +57,8 @@ System Name: main.cpp --Startup Monopoly
 
 System Description: See the rules above for more detail. This is a game similar to monopoly that follows the early years of a startup.
 
+Overall play testing has shown that the game last for awhile, but has typically ended with one player reaching $1 billion (note again that the numbers in the game are scaled) after purchasing many squares and getting a lot of money from landing on it. Usually has happened in round 30-40.
+
 Global Data:
 
 -NumSpaces : Shows the number of squares on the gameboard
@@ -63,6 +66,10 @@ Global Data:
 -*players: Instance of the Player class, dynamically allocated later for all the players
 -*spaces: Instance of the Space class, dynamically allocated later for the spaces on the game board
 -Characters[]: The characters on the gameboard.
+-winnerOver: Tracks if the game is over or not and whether or not the game should be declared over.
+-rounds: Keeps track of the number of rounds as the game goes on
+-LoserSwitch: Tracks the number of times somebody has lost. Prevents a loss from being printed every single round
+-lost[4]: an array of ints that tracks which have lost (for reference purposes and for outputting purposes)
 
 Class Description:
 
@@ -80,20 +87,56 @@ Class Description:
 	-Actions: private, the name of the actual actions (feeds into the printed version)
 	-owner: tracks the owner of the space
 
+	The cpp secion of this file focuses on moving around owners and tracking who owns the space.
+
 -Class: Action
-	-string text[3]: holds the actions
-	- in the future will show implementation of the actions
+	-string text[3]: holds the actions that are printed.
+	-virtual void executeAction(Player *q): Passes in a player and executes all the actions for the squares. When a player lands on a squre, executeAction is called. Using inheritance and the pure virtual function, it calls the appropriate action
+	-print-name(int): This takes an int in and returns the position in the array for text that it is in. Mainly for output purposes of what shows up on the square
+	-fillText: fillText is used to put things into text[num], which holds the actions that are printed on the screen.
 -Class: Player
 	-currentSpace: tracks current location of the player
 	-nameChange(char): changes name to the char
 	-moneymove(int): moves the money (increases or decreases. Currently not implemented)
 	-customermove(int): increases the customers or decreases the customers
 	-Lost(): A function to turn players who have lost off
+	-checkLost(): CHecks if the player is still playing. This can be used before turns and during other situations to isolate only the players who are playing
+	-GameEnd: checks if the game is over for the person by returning a bool
+	-CashChecker: returns the amount of cash the player has
+	-CustomerChecker: Checks how many customer cards the player has
+	-ScoreChecker(): Checks the company score for how well it will do at DemoDay
+	-ImproveScore(int): Takes an int and uses the int to up the company score
+	-give_money(int): gives money. Never used.
+	-AddCustomer(): adds 1 customer card to the player
+	-ChangeCustomerCards(bool): changes the customerCard bool so that it is able to track correctly whether or not the player got a special CustomerCard.
+	-ReturnCustomerCard(): returns the number of customercards there are
+	-RemoveCustomer(): Removes a customer card from the player
 	-name: name of the player
 	-move(Space, Space, int, int): increments the position so that it will track the updated position after each die roll.
 	-cash: the amount of money left in the bank
 	-customer: the number of customer cards left (that the person has)
 	-playing: a boolean that represents whether or not the person is still playing the game.
+	-companyscore : tracks the company score. This determines whether or not the player will have a high probability at DemoDay
+	-customerCard: This is a boolean to see if the player won the special customerCard pack. IF it has, it gets to choose any player and take one of their customer cards.
+-Class : GotoAction
+	-inherits from Action and uses executeAction to move a piece to another square
+	-executeAction(Player *q): Uses executeAction to see where it is going. Then changes the currentsquare in the player to the square it should be going to. This triggers an if statement in the main function that executes the flip visually and in the space array.
+	-int _square: tracks the square it should be on
+-Class: MoneyAction
+	-inherits from Action and uses executeAction to make monetary transactions.
+	-executeAction(Player *q): Takes or gives money to the player
+	-pay_money(): Allows for money payment. (UNUSED)
+-Class CardAction
+	-serves as the two decks. Allows a square to call a specific deck into play.
+	-CardAction constructor allows a speciic deck to be mentioned.
+	-deck1(Player *a): Uses Money actions. Creates a deck and selects an amount of money to award to the players.
+	-deck2(Player *a): Targets Customer cards. Manipulates the cards and sets conditions for what card to draw.
+	-executeAction(Player *q): carries out the deck1 or deck2 function
+	-deck_num: which deck is it? 1 or 2?
+	-MoneyDeck[50]: for use with deck1, this contains all the money that will be given out.
+-Class Bank
+	-the bank basically takes in money at certain stages in the game from the Players, like when a player resigns. In most other situations, the money is simply "lost" to the public and does not go to the bank, just as a bankrupt startup is not giving the money to the bank.
+	-money: The money that the bank contains.
 
 
 FUNCTIONS (in main.cpp):
@@ -126,9 +169,35 @@ FUNCTIONS (in main.cpp):
 	-integrates the various functions to print out the board, move the players, and shows details
 	-the die gives a random number that integrates with it.
 	-pauses the program before each roll to allow users to interact
+-void declareWinners():
+	-checks if the players have won, if they have, end the game
+	-uses the playing private variable to check which players are playing and uses that to figure out how many players are still in the game
+-DemoDay():
+	-DemoDays happen every 5 turns and are like a lottery
+	-Takes into account the company score and uses it to push the likihood of winning money.
+	-Each company gets a turn to win and get the money added into their account
+-Acquisition(int, int):
+	-FUNCTION IS NOT READY YET. Takes 2 ints to compare the companies and acquire one of them.
+	-basic concepts of the function are working, but not fully implemented yet.
+	-checks if a company is 10x bigger than any other company. If it is, the company can acquire the smaller company and absorb it into the bigger one.
+-setLosers():
+	-sets players as losers if they lose all of their customers
+	-checks a few different conditions and declares the losers
+-organizeLosers():
+	-No longer used. Originally planned to use to organize the losers in a specific order.
+-GameProgress():
+	-Prints the game progress periodically. Shows the amount of money each player has and which players have lost
+	-simply outputs the game data within the classes
+-executeAction(Action& a):
+	-currently still not used. Allows me to pass an Action into executeAction
+-properties(int, int):
+	-used for buying and selling property. Prices of properties are randomized.
 
 COMPILING AND TESTING
 
-Type: make to compiles the program.
+Type: make 
+to compiles the program.
 
 Run by running main. Type: ./main
+
+Functions that have not been inputted into the game (but not required) are noted in the game design. All other functions have been tested and work as planned.
