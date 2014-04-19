@@ -440,7 +440,7 @@ void properties(int playernum, int spacenum) { //deals with the buying and selli
 				spaces[spacenum].ChangeOwner(players[playernum].name); //changes the owner of the square
 				players[playernum].moneymove(-price);
 				bank[0].money +=price;
-				cout << "You now own this! Congratulations!" << endl;
+				cout << "You now own this! Congratulations, you will be paid every time you land on this square!" << endl;
 				string enternow1;
 				getline(cin, enternow1);
 				if (enternow1.empty()) { //utilizes the empty line to continue
@@ -457,6 +457,10 @@ void properties(int playernum, int spacenum) { //deals with the buying and selli
 				break;
 			}
 			continue;
+		} else if (spaces[spacenum].PrintOwner() == players[playernum].name) {
+			int Win = rand() % 2000 + 3000;
+			players[playernum].moneymove(Win);
+			break;
 		} else {
 			break;
 		}
