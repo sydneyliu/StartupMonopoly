@@ -10,15 +10,15 @@ main: $(OBJ)
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -c $<
 
-Space.o: Space.h Action.h
+Space.o: Space.h Action.h Player.h
 
-Action.o: Action.h
+Action.o: Action.h Player.h
 
 Player.o: Player.h Space.h
 
 GotoAction.o: GotoAction.h Action.h Player.h Space.h
 
-CardAction.o: CardAction.h Action.h
+CardAction.o: CardAction.h Action.h Player.h
 
 MoneyAction.o: MoneyAction.h Action.h Player.h
 

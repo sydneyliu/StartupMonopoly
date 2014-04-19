@@ -15,9 +15,9 @@ class MoneyAction : public Action
   MoneyAction();
   MoneyAction(int money);
 
-  void pay_money(Player &p, int amount);
+  void pay_money(Player *p, int amount);
 
-  void executeAction();
+  void executeAction(Player *q);
 
  protected:
   int _money;

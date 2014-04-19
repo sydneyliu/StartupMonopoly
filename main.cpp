@@ -214,7 +214,7 @@ void GameRounds() {
 				}
 				if (enternow=="R") {
 					players[i].Lost();
-					cout << players[i].name << " has resigned." << endl;
+					cout << players[i].name << " has resigned or lost." << endl;
 					int temp1 = players[i].CashChecker(); //keeps track of money that needs to be transfered to the bank
 					players[i].moneymove(-temp1);
 					bank[0].money+=temp1;
@@ -242,7 +242,7 @@ void GameRounds() {
 
 				//executes the actions that are on the game board
 				cout << "You have landed on "<< spaces[mover2].printedName <<"!"<< endl;
-				actions[mover2]->executeAction();
+				actions[mover2]->executeAction(&players[i]);
 
 				//ends the actions that are execution
 				properties(i, mover2);
@@ -424,7 +424,7 @@ void GameProgress() { //updates the progress of the game and shows the overall s
 
 void executeAction( Action& a)
 {
-    a.executeAction();
+    a.executeAction(&players[1]);
     cout << "Test" << endl;
 }
 
@@ -694,7 +694,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[0]->fillText(1, "     ");
 	actions[0]->fillText(2, "     ");
 	
-	actions[1]= new MoneyAction();
+	actions[1]= new MoneyAction(500);
 	spaces[1].ChangeName("HOROW");
 	actions[1]->fillText(0, "Add  ");
 	actions[1]->fillText(1, "$500 ");
@@ -715,7 +715,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[3]->fillText(2, "     ");
 
 
-	actions[4]= new MoneyAction();
+	actions[4]= new MoneyAction(1000);
 	spaces[4].ChangeName("RICKR");
 	spaces[4].ChangeOwner(' ');
 	actions[4]->fillText(0, "Add  ");
@@ -723,7 +723,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[4]->fillText(2, "to u!");
 
 
-	actions[5]= new MoneyAction();
+	actions[5]= new MoneyAction(600);
 	spaces[5].ChangeName("GATES");
 	spaces[5].ChangeOwner(' ');
 	actions[5]->fillText(0, "Add  ");
@@ -739,7 +739,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[6]->fillText(2, "CARD!");
 
 
-	actions[7]= new MoneyAction();
+	actions[7]= new MoneyAction(200);
 	spaces[7].ChangeName("SEANP");
 	spaces[7].ChangeOwner(' ');
 	actions[7]->fillText(0, "Add  ");
@@ -748,7 +748,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 
 
-	actions[8]= new MoneyAction();
+	actions[8]= new MoneyAction(600);
 	spaces[8].ChangeName("BOGLE");
 	spaces[8].ChangeOwner(' ');
 	actions[8]->fillText(0, "Add  ");
@@ -774,7 +774,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 
 
-	actions[11]= new MoneyAction();	
+	actions[11]= new MoneyAction(-200);	
 	spaces[11].ChangeName("DELAY");
 	spaces[11].ChangeOwner(' ');
 	actions[11]->fillText(0, "LOSE ");
@@ -790,7 +790,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[12]->fillText(2, "CARD!");
 
 
-	actions[13]= new MoneyAction();
+	actions[13]= new MoneyAction(-800);
 	spaces[13].ChangeName("COMPE");
 	spaces[13].ChangeOwner(' ');
 	actions[13]->fillText(0, "LOSE ");
@@ -806,7 +806,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[14]->fillText(2, "     ");
 
 
-	actions[15]= new MoneyAction();
+	actions[15]= new MoneyAction(-200);
 	spaces[15].ChangeName("MISSE");
 	spaces[15].ChangeOwner(' ');
 	actions[15]->fillText(0, "LOSE ");
@@ -814,7 +814,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[15]->fillText(2, "     ");
 
 
-	actions[16]= new MoneyAction();
+	actions[16]= new MoneyAction(-400);
 	spaces[16].ChangeName("EMERG");
 	spaces[16].ChangeOwner(' ');
 	actions[16]->fillText(0, "LOSE ");
@@ -856,7 +856,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[20]->fillText(2, "CARD!");
 
 
-	actions[21]= new MoneyAction();
+	actions[21]= new MoneyAction(-200);
 	spaces[21].ChangeName("DESIG");
 	spaces[21].ChangeOwner(' ');
 	actions[21]->fillText(0, "LOSE ");
@@ -864,7 +864,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[21]->fillText(2, "     ");
 
 
-	actions[22]= new MoneyAction();
+	actions[22]= new MoneyAction(500);
 	spaces[22].ChangeName("SALES");
 	spaces[22].ChangeOwner(' ');
 	actions[22]->fillText(0, "Add  ");
@@ -872,7 +872,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[22]->fillText(2, "to u!");
 
 
-	actions[23]= new MoneyAction();
+	actions[23]= new MoneyAction(1000);
 	spaces[23].ChangeName("MARKE");
 	spaces[23].ChangeOwner(' ');
 	actions[23]->fillText(0, "Add  ");
@@ -880,14 +880,14 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[23]->fillText(2, "to u!");
 
 
-	actions[24]= new MoneyAction();
+	actions[24]= new MoneyAction(-2000);
 	spaces[24].ChangeName("LAWYE");
 	spaces[24].ChangeOwner(' ');
 	actions[24]->fillText(0, "LOSE ");
 	actions[24]->fillText(1, "$2000");
 	actions[24]->fillText(2, "     ");
 
-	actions[25]= new MoneyAction();
+	actions[25]= new MoneyAction(500);
 	spaces[25].ChangeName("PMFIT");
 	spaces[25].ChangeOwner(' ');
 	actions[25]->fillText(0, "Add  ");
@@ -903,7 +903,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[26]->fillText(2, "CARD!");
 
 
-	actions[27]= new MoneyAction();
+	actions[27]= new MoneyAction(200);
 	spaces[27].ChangeName("TEAM!");
 	spaces[27].ChangeOwner(' ');
 	actions[27]->fillText(0, "Add  ");
@@ -911,7 +911,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[27]->fillText(2, "to u!");
 
 
-	actions[28]= new MoneyAction();
+	actions[28]= new MoneyAction(300);
 	spaces[28].ChangeName("SMART");
 	spaces[28].ChangeOwner(' ');
 	actions[28]->fillText(0, "Add  ");
@@ -927,7 +927,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[29]->fillText(1, "     ");
 	actions[29]->fillText(2, "     ");
 
-	actions[30]= new MoneyAction();
+	actions[30]= new MoneyAction(-500);
 	spaces[30].ChangeName("HEALT");
 	spaces[30].ChangeOwner(' ');
 	actions[30]->fillText(0, "LOSE ");
@@ -935,7 +935,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[30]->fillText(2, "     ");
 
 
-	actions[31]= new MoneyAction();
+	actions[31]= new MoneyAction(-200);
 	spaces[31].ChangeName("FAMIL");
 	spaces[31].ChangeOwner(' ');
 	actions[31]->fillText(0, "LOSE ");
@@ -943,7 +943,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[31]->fillText(2, "     ");
 
 
-	actions[32]= new MoneyAction();
+	actions[32]= new MoneyAction(-400);
 	spaces[32].ChangeName("BABY!");
 	spaces[32].ChangeOwner(' ');
 	actions[32]->fillText(0, "LOSE ");
@@ -951,7 +951,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[32]->fillText(2, "     ");
 
 
-	actions[33]= new MoneyAction();
+	actions[33]= new MoneyAction(-300);
 	spaces[33].ChangeName("SCARD");
 	spaces[33].ChangeOwner(' ');
 	actions[33]->fillText(0, "LOSE ");
@@ -959,7 +959,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[33]->fillText(2, "     ");
 
 
-	actions[34]= new MoneyAction();
+	actions[34]= new MoneyAction(100);
 	spaces[34].ChangeName("FORUN");
 	spaces[34].ChangeOwner(' ');
 	actions[34]->fillText(0, "Add  ");
@@ -967,7 +967,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[34]->fillText(2, "to u!");
 
 
-	actions[35]= new MoneyAction();
+	actions[35]= new MoneyAction(100);
 	spaces[35].ChangeName("TIMES");
 	spaces[35].ChangeOwner(' ');
 	actions[35]->fillText(0, "Add  ");
@@ -975,7 +975,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[35]->fillText(2, "to u!");
 
 
-	actions[36]= new MoneyAction();
+	actions[36]= new MoneyAction(200);
 	spaces[36].ChangeName("LEARN");
 	spaces[36].ChangeOwner(' ');
 	actions[36]->fillText(0, "Add  ");
@@ -984,7 +984,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 
 
-	actions[37]= new MoneyAction();
+	actions[37]= new MoneyAction(500);
 	spaces[37].ChangeName("TALTR");
 	spaces[37].ChangeOwner(' ');
 	actions[37]->fillText(0, "Add  ");
@@ -992,7 +992,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[37]->fillText(2, "to u!");
 
 
-	actions[38]= new MoneyAction();
+	actions[38]= new MoneyAction(-400);
 	spaces[38].ChangeName("CONFE");
 	spaces[38].ChangeOwner(' ');
 	actions[38]->fillText(0, "LOSE ");

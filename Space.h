@@ -17,7 +17,7 @@ class Space {
 		string printedName;
 	private:
 		string name; //name of the space. 5 chars
-		Action *Actions; //stores the actions that the square does
+		//Action *Actions; //stores the actions that the square does
 		char owner; //tracks the owner of the space
 };
 

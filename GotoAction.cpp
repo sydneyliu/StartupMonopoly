@@ -19,7 +19,7 @@ GotoAction::GotoAction(int square)
 	_square = square;
 }
 
-void GotoAction::executeAction()
+void GotoAction::executeAction(Player *q)
 {
     cout << "in GotoAction executeAction\n";
 }

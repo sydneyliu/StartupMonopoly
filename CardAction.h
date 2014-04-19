@@ -16,7 +16,7 @@ class CardAction : public Action
   void set_amount(int spaces);
   int get_amount();
 
-  void executeAction();
+  void executeAction(Player *q);
 
 
  protected:

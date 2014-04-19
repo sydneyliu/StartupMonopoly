@@ -1,6 +1,9 @@
 #include "Space.h"
 #include "Player.h"
 #include "Action.h"
+#include "MoneyAction.h"
+#include "CardAction.h"
+#include "GotoAction.h"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>

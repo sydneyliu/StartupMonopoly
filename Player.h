@@ -1,7 +1,10 @@
+
 #ifndef PLAYER_H
+class Space;
 #define PLAYER_H
 
 #include "Space.h"
+#include "Action.h"
 using namespace std;
 
 class Player {

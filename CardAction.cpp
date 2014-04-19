@@ -28,7 +28,7 @@ int CardAction::get_amount()
 	return _amount;
 }
 
-void CardAction::executeAction()
+void CardAction::executeAction(Player *q)
 {
     cout << "in move action executeAction\n";
 }

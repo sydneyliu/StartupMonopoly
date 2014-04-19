@@ -3,6 +3,7 @@
 #ifndef ACTION_H
 #define ACTION_H
 #include <string>
+#include "Player.h"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ class Action {
 		Action();
 		Action(string);
 		~Action();
-		virtual void executeAction()=0; //pure virtual function execution
+		virtual void executeAction(Player *q)=0; //pure virtual function execution
 		string print_name(int);
 		string fillText(int, string);
 	private:
