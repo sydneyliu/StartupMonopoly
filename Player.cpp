@@ -16,6 +16,7 @@ Player::Player() {
 	playing = 1; //is the player still in the game?
 	currentSpace = 0; //Stores the current space the player is on
 	companyscore = 5; //the score of the company's progress. The higher the company score, the more likely the players will get money at Demo Days
+	customerCard=0;
 }
 
 
@@ -89,4 +90,17 @@ void Player::give_money(int amount)
 
 void Player::AddCustomer() {
 	customer++;
+}
+
+void Player::RemoveCustomer() {
+	customer--;
+}
+
+void Player::ChangeCustomerCards(bool truth) {
+	customerCard=truth;
+
+}
+
+bool Player::ReturnCustomerCard() {
+	return customerCard;
 }

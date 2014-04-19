@@ -46,7 +46,10 @@ void CardAction::deck2(Player *a) { //Deals with customercards. Remove somebody'
 	int CustomDeck = rand() %10;
 
 	if(CustomDeck == 0) {
-		cout << "Whoa! You have found the rare card! You may now select anybody's customer card and take it!" << endl;
+		cout << "Whoa! You have found the rare card! A customer card has been given to you. You may now also select anybody's customer card and take it!" << endl;
+		a->AddCustomer();
+		a->AddCustomer();
+		a->ChangeCustomerCards(true);
 	} else if (CustomDeck <8) {
 		cout << "You now have one more customer card" << endl;
 		a->AddCustomer();

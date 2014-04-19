@@ -26,11 +26,15 @@ class Player {
 		void ImproveScore(int); //Improve the score of the company
 		void give_money(int); //give up money
 		void AddCustomer(); //adds customer cards
+		void ChangeCustomerCards(bool);
+		bool ReturnCustomerCard();
+		void RemoveCustomer();
 	private:
 		int cash; //amount of money left in the bank, in hundred of thousand of dollars
 		int customer; //number of customer cards left
 		bool playing; //is the player still playing the game?
 		int companyscore; //company's score
+		bool customerCard; //special customer card
 };
 
 #endif

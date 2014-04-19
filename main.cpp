@@ -251,6 +251,34 @@ void GameRounds() {
 					actions[players[i].currentSpace]->executeAction(&players[i]);
 				}
 
+				if(players[i].ReturnCustomerCard()==true) {
+					int UserCustom; //player's input
+					do {
+						cout << "Choose a player to take a customer card from!" << endl;
+						cout << "Put the number displayed on the left to make a selection" << endl;
+						for (int i=0; i<player_num; i++) {
+							if(players[i].checkLost()==1) { //if the player is still playing
+								cout << i << " "<< players[i].name << endl;
+							}
+						}
+						cin >> UserCustom;
+						if(cin.fail()) {
+							cin.clear();
+							cin.ignore(100000,'\n');
+							cout << "Invalid input, please try again" << endl;
+							continue;
+						}
+						if(UserCustom>player_num-1 || UserCustom<0) {
+							cout << "Invalid input, please try again" << endl;
+							continue;
+						}
+						break;
+					} while(true);
+					
+					players[UserCustom].RemoveCustomer();
+					players[i].ChangeCustomerCards(false);
+				}
+
 				//ends the actions that are execution
 				properties(i, mover2);
 
@@ -730,7 +758,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 	actions[4]->fillText(2, "to u!");
 
 
-	actions[5]= new MoneyAction(600);
+	actions[5]= new MoneyAction(6000);
 	spaces[5].ChangeName("GATES");
 	spaces[5].ChangeOwner(' ');
 	actions[5]->fillText(0, "Add  ");
@@ -991,7 +1019,7 @@ void SpecificSpaces() { //hardcodes specific info into the spaces
 
 
 
-	actions[37]= new MoneyAction(500);
+	actions[37]= new MoneyAction(9000);
 	spaces[37].ChangeName("TALTR");
 	spaces[37].ChangeOwner(' ');
 	actions[37]->fillText(0, "Add  ");
