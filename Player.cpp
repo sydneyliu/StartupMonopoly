@@ -86,3 +86,7 @@ void Player::give_money(int amount)
 {
 	 cash = amount + cash;
 }
+
+void Player::AddCustomer() {
+	customer++;
+}

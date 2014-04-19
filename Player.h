@@ -25,6 +25,7 @@ class Player {
 		int ScoreChecker(); //returns the company score
 		void ImproveScore(int); //Improve the score of the company
 		void give_money(int); //give up money
+		void AddCustomer(); //adds customer cards
 	private:
 		int cash; //amount of money left in the bank, in hundred of thousand of dollars
 		int customer; //number of customer cards left

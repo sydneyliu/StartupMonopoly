@@ -43,6 +43,19 @@ void CardAction::deck2(Player *a) { //Deals with customercards. Remove somebody'
 	if (enternow.empty()) { //utilizes the empty line to continue
 		enternow ="a";
 	}
+	int CustomDeck = rand() %10;
+
+	if(CustomDeck == 0) {
+		cout << "Whoa! You have found the rare card! You may now select anybody's customer card and take it!" << endl;
+	} else if (CustomDeck <8) {
+		cout << "You now have one more customer card" << endl;
+		a->AddCustomer();
+		cout << "You have " << a->CustomerChecker() << " Customer cards" << endl;
+	} else {
+		cout << "This is what your card says:" << endl;
+		cout << "'Have a nice day!'" << endl;
+		cout << "Looks like you don't get anything from this card." << endl;
+	}
 }
 
 void CardAction::executeAction(Player *q)
