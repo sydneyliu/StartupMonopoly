@@ -297,6 +297,12 @@ void GameRounds() {
 
 		} //end of for loop
 		if ((rounds%5) == 0) { //DEMO DAYS every 5 rounds
+			cout << "We are now at round "<< rounds << ". There are " << 40-rounds << " rounds left before judgement day. Hit enter to begin Demo Day!" << endl;
+			string enternow;
+			getline(cin, enternow);
+			if (enternow.empty()) { //utilizes the empty line to continue
+				enternow ="a";
+			}
 			DemoDay();
 		}
 		declareWinners(); //checks if any of the players have won.
@@ -304,6 +310,13 @@ void GameRounds() {
 			switcher = false; //breaks out of the loop
 		}
 		GameProgress();
+		if (rounds==40) {
+			cout << "The Game is now over! The final scores are: "<< endl;
+			for (int i=0; i<player_num; i++) {
+				cout << players[i].name << " " << "Score: " << players[i].CustomerChecker() * 10000 + players[i].CashChecker() << endl;
+			}
+			break;
+		}
 	} //end of while loop
 
 }
@@ -449,7 +462,7 @@ void GameProgress() { //updates the progress of the game and shows the overall s
 	for (int i = 0; i<player_num; i++) {
 		cout << players[i].name << " has $" << players[i].CashChecker();
 		if(players[i].checkLost()==0) {
-			cout << " (Player has resigned)";
+			cout << " (Player has resigned or Lost)";
 		}
 		cout << endl;
 	}
@@ -499,8 +512,13 @@ void properties(int playernum, int spacenum) { //deals with the buying and selli
 			}
 			continue;
 		} else if (spaces[spacenum].PrintOwner() == players[playernum].name) {
-			int Win = rand() % 2000 + 3000;
+			int Win = rand() % 3000 + 5000;
 			players[playernum].moneymove(Win);
+			cout << endl;
+			cout << endl;
+			cout << "CaChing! You just made: " << Win << " because you landed on something you own!" << endl;
+			cout << endl;
+			cout << endl;
 			break;
 		} else {
 			break;
