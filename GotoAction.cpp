@@ -3,7 +3,7 @@
 #include <string>
 
 #include "Action.h"
-#include "Moneyaction.h"
+#include "MoneyAction.h"
 #include "Player.h"
 #include "GotoAction.h"
 
