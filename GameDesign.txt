@@ -43,7 +43,7 @@ Every turn there is an opportunity to launch a new product if the players choose
 
 Every 5 turns there is a demo day where players meet investors. The probability of getting an investment increases as the company score increases.
 
-If a player's company is worth 10 times another company, it can choose to acquire the company. An acquisition means the player gets all customer cards the other company owns as well as any products. (NOT IMPLEMENTED, but not in requirements)
+If a player's company is worth 50 times another company, it can choose to acquire the company. An acquisition means the player gets all customer cards the other company owns as well as any products. (NOT IMPLEMENTED, but not in requirements)
 
 
 At 30 turns, the top 50% of companies go IPO. Money in the bank doubles for each company that goes IPO, but they no longer win if they get to 1 billion dollars. (NOT IMPLEMENTED, but not in requirements)

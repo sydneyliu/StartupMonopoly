@@ -20,7 +20,7 @@ class Player {
 		char name; //player's piece
 		void move(Space, Space, int, int); //the number of spaces a player is moving
 		int GameEnd(); //helps check if the game is over by returning the playing bool
-		int CashChecker(); //checks if the player has over 1 billion and wins the game
+		int CashChecker(); //returns the amount of cash
 		int CustomerChecker(); //checks the number of customers left
 		int ScoreChecker(); //returns the company score
 		void ImproveScore(int); //Improve the score of the company

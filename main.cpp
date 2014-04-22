@@ -281,11 +281,31 @@ void GameRounds() {
 
 				//ends the actions that are execution
 				properties(i, mover2);
+				int biggest=0;//tracks the biggest non-lost company
+				int smallest=10;//tracks for the smallest non-lost company
+				int tracked[player_num];
+				int largest_position;//tracks the position of the largest
+				int smallest_position;//tracks the position of the smallest
+				for(int i=0; i<player_num; i++) { //check for the lowest non-lost company
+					if (players[i].checkLost() ==1) { //if a player is still playing
+						tracked[i]=1; //tracks the players who are still playing
+						for(int j=0; j<player_num; j++) {
+							if(tracked[j]==1) {
+								if(biggest<tracked[j]) {
+									biggest = tracked[j]; //tracks the largest number
+									largest_position=j;
+								}
+								if (smallest > tracked[j]) {
+									smallest = tracked[j];
+									smallest_position = j;
+ 								} //end of if statement
+							} //end of if statement
 
-				if (1 > 2) { //if one company is 10x larger than another company
-					int x; //larger company
-					int y; //smaller company
-					Acquisition(x, y);
+						} //end of for loop
+					} //end of if statement
+				} //end of for loop
+				if (biggest > (50 * smallest)) { //if one company is 10x larger than another company
+					Acquisition(largest_position, smallest_position);
 				}
 				setLosers();
 				//organizeLosers();
@@ -310,11 +330,19 @@ void GameRounds() {
 			switcher = false; //breaks out of the loop
 		}
 		GameProgress();
+		int winner=0; //the position for the winner
+		int highestscore=0; //the highest score
 		if (rounds==40) {
-			cout << "The Game is now over! The final scores are: "<< endl;
+			cout << "The Game is now over! The final scores (Customer card and cash weighted and combined) are: "<< endl;
 			for (int i=0; i<player_num; i++) {
-				cout << players[i].name << " " << "Score: " << players[i].CustomerChecker() * 10000 + players[i].CashChecker() << endl;
+				int final_scores = players[i].CustomerChecker() * 10000 + players[i].CashChecker();
+				cout << players[i].name << " " << "Score: " << final_scores << endl;
+				if (final_scores > highestscore) {
+					winner =i;
+					highestscore = final_scores;
+				}
 			}
+			cout << "The winner is " << players[winner].name << endl;
 			break;
 		}
 	} //end of while loop
@@ -437,12 +465,16 @@ void DemoDay() {
 
 }
 
-void Acquistion(int a, int b) { //input the number position of the first player and the second player. a is the company doing the acquiring, b is acquired.
-	cout << players[a].name << " is worth over 10x the amount that " << players[b].name << ". " << players[a].name << " now can acquire the company." << endl;
+void Acquisition(int a, int b) { //input the number position of the first player and the second player. a is the company doing the acquiring, b is acquired.
+	cout << players[a].name << " is worth over 50x the amount that " << players[b].name << ". " << players[a].name << " now can acquire the company." << endl;
 
+	int exchange;
+	exchange = players[b].CashChecker();
+	players[b].moneymove(-exchange);
+	players[a].moneymove(exchange);
 	//move all the money out of b and into a
 
-	players[b].Lost();
+	players[b].Lost(); //declare the player lost so that it won't get another turn
 }
 
 void GameProgress() { //updates the progress of the game and shows the overall scores
