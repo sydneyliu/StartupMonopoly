@@ -304,7 +304,7 @@ void GameRounds() {
 						} //end of for loop
 					} //end of if statement
 				} //end of for loop
-				if (biggest > (50 * smallest)) { //if one company is 10x larger than another company
+				if (biggest > (20 * smallest)) { //if one company is 10x larger than another company
 					Acquisition(largest_position, smallest_position);
 				}
 				setLosers();
@@ -466,7 +466,7 @@ void DemoDay() {
 }
 
 void Acquisition(int a, int b) { //input the number position of the first player and the second player. a is the company doing the acquiring, b is acquired.
-	cout << players[a].name << " is worth over 50x the amount that " << players[b].name << ". " << players[a].name << " now can acquire the company." << endl;
+	cout << players[a].name << " is worth over 20x the amount that " << players[b].name << ". " << players[a].name << " now can acquire the company." << endl;
 
 	int exchange;
 	exchange = players[b].CashChecker();
