@@ -1,0 +1,149 @@
+Name: Startup Race - The Game of Old and New
+********************************************
+SEE BELOW FOR GAME DESIGN
+
+Characters:
+***********
+Hall of Famers:
+-- Andrew Carnegie
+-- John Rockefeller
+-- Jim Clark
+
+Living Legends:
+-- Steve Jobs
+-- Bill Gates
+-- Larry Page
+-- Richard Branson
+-- Warren Buffet
+
+The Future:
+-- Mark Zuckerberg
+-- Jack Dorsey
+-- Elon Musk
+
+Game Objective:
+***************
+
+The characters go through the startup process and with a little help of luck to beat out the other startups and become a billion dollar company.
+
+Companies lose when they have no company cards or no money. Your mission is to be the last company standing, have the highest score when 40 turns is reached, or reach 1 billion dollars first. That is how you win.
+
+Game Rules
+**********
+Each company starts with 2 customer cards each and 1.5 million dollars in the bank.
+
+Players roll a die to move around the board and collect advisors, funding, etc. along the way. The squares represent these elements. It is possible to purchase these elements. These spaces do not charge rent, but provide HUGE returns on investment if they are purchased becase you get money if you land on them.
+
+
+Metrics:
+--Company Score: A general rating for the company based on money, product, growth, etc. Scale of 1-10. The company score moves as companies progress.
+--Money: The money in the bank (from investments and sales). Kept track in hundreds of thousand of dollars
+
+Specific squares give benefits and/or allow you to draw from the two decks.
+
+If 40 turns go by, then the final scores are posted. They are callibrated using both the customer cards and the amount of money in the bank.
+
+Your goal is to get $1 Billion or to knock out the other teams by taking their customer cards. The game is similar to monopoly. You can also purchase squares.
+*************************************************************
+
+GAMEDESIGN WRITEUP
+
+To play, you will be prompted by two boxes where you can fill out the number of players and choose your characters. Start the game by Rolling the Die. The players will move when the die is rolled. Users can resign by clicking resign. If too many people resign, a game over screen is displayed.
+
+in MainWindow Class: The class where most of my code is in, here is where I do all of my buttons and interactions.
+-boardLabel: A QLabel that displays the board I designed in the background of the game. It is used as the overall look of the game
+-players[4]: of the players class. Stores the players. The players are declared in the cpp file
+-guiPLayers[4]: an array of guiPlayers which store the little icon for each player and are in charge of keeping track of where the icon is
+-centralWidget: the centralWidget. Many of the images, like the flipping cards and the background image are from the central widget
+-mb is the menubar. You are able to click file-->exit to close to program from any screen.
+-fileMenu: This creates the file option that leads to the ability to click exit
+-Player_Num: Used for the list options in the first dialogue that pops up
+-Player_Name: Used for the second dialogue. This is put inside a vector for storage of the characters each user can choose
+-player1-4: these QLabels show the name of the player
+-money1-4:displays the amount of money in the bank for each player
+-customer1-4: shows the number of customer cards
+-GameOver: Displays the GameOver after the game is over(TEST THIS BY CLICKING RESIGN FOR PLAYERS UNTIL ONLY 1 iS LEFT)
+-Yes1-4: The Yes button for responses
+-No1-4: The No button for responses to questions like buying
+-Resign1-4: Allows players to resign. Click this to resign a specific player
+-Dice: A button that triggers the dice() function.
+-Die: A QLabel that displays the number of the die after it is clicked
+-GameWinner: Displays the game winner after GameOver is displayed
+-Round1-4: Displays what round it is next to each player as it is their turn
+-icon1-4: Displays the little icon for each player and is used to track and manipulate their movement
+-player1cash, player2cash etc.: Stores the cash the players have
+-player1cus, etc.: Stores the number of customer cards the player has
+-counter: Tracks the number of moves that have happend within the turn to ensure that everybody gets a turn in order. An internal clock for the rounds
+-playerTurn: Tracks who the current turn is
+-firstTime: Tracks if it is the first time going through the counter loop to count the rounds to try to override a bug
+-dice(): does the rolling as well as the piece moving
+-Resignation(int): takes an int of the player number that resigns. Makes the money and customers 0 and skips the person when it is the player's turn
+-UpdateMoneyCustom(): updates the money and customer cards on the screen
+-declareWinners(): checks for winners and declares them if there are winners
+-buttonCondition(): Takes all of the ones that need to be updated on the gui and places them on the same function. Every time a button is touched, all the values will be updated
+-updateRounds(): updates the round number on the display
+-MainWindow(): Constructor, constructs most of the gameboard and implementation of the game
+-randnum: a random number for the die
+-player_number: Shows the number of players who are playing. Taken from an early input
+-rounds: tracks the number of turns that have gone by
+-roundTracker(): Keeps track of rounds
+
+
+Class: Player
+	-QString playerName: the player's name in a QString
+	-int turn: checks if the person's turn has been had to make sure that there aren't people going twice in one round
+	-Void setName: sets the name to the one put in the constructor.
+	-getName: returns the QString name that was assigned to it.
+	-currentSpace: tracks current location of the player
+	-nameChange(char): changes name to the char
+	-moneymove(int): moves the money (increases or decreases. Currently not implemented)
+	-customermove(int): increases the customers or decreases the customers
+	-Lost(): A function to turn players who have lost off
+	-checkLost(): CHecks if the player is still playing. This can be used before turns and during other situations to isolate only the players who are playing
+	-GameEnd: checks if the game is over for the person by returning a bool
+	-CashChecker: returns the amount of cash the player has
+	-CustomerChecker: Checks how many customer cards the player has
+	-ScoreChecker(): Checks the company score for how well it will do at DemoDay
+	-ImproveScore(int): Takes an int and uses the int to up the company score
+	-give_money(int): gives money. Never used.
+	-AddCustomer(): adds 1 customer card to the player
+	-ChangeCustomerCards(bool): changes the customerCard bool so that it is able to track correctly whether or not the player got a special CustomerCard.
+	-ReturnCustomerCard(): returns the number of customercards there are
+	-RemoveCustomer(): Removes a customer card from the player
+	-name: name of the player
+	-move(Space, Space, int, int): increments the position so that it will track the updated position after each die roll.
+	-cash: the amount of money left in the bank
+	-customer: the number of customer cards left (that the person has)
+	-playing: a boolean that represents whether or not the person is still playing the game.
+	-companyscore : tracks the company score. This determines whether or not the player will have a high probability at DemoDay
+	-customerCard: This is a boolean to see if the player won the special customerCard pack. IF it has, it gets to choose any player and take one of their customer cards.
+
+Class: GUIPlayer
+-player: passes in a player
+-nameLabel: takes in the name of the player
+-GUIPlayer(Player* p): takes in a player and its info
+-getPic(QString Photo): keeps the picture in storage in a QImage
+-QString Location: Takes a Qstring of the location of all of the small image icons. It is used to pass it in the mainwindow.cpp to feed the images in.
+-moved: checks if you have moved or not
+-currentx: stores the current coordinate of the x
+-currenty: stores the current coordinate of the y
+
+Class: CentralWidget
+-cardDeckButton: the first card deck. It is a button and will "flip over" if clicked on.
+-cardDeckButton1: The second card deck. It is also a button and will flip over if clikced on
+-boardLabel: the background of the game
+-cardFaceDown: The Facedown of the card
+-cardFaceUp: The Faceup vision of the card
+-cardCashUp: the cash card side of the card
+-isFaceDown: A boolean that checks whehthero r not the card is face up or not
+-drawcard() and drawcard1(): a draw flips the card over for their respective target decks
+-CentralWidget(): This constructor contains most of the information for CentralWidget, especially for the buttons and images.
+
+
+To Test: 
+type qmake -project
+type qmake
+type make
+type ./StartupGameQt
+
+The program will run.

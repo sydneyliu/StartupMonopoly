@@ -1,0 +1,17 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>images/CardBacking.png</file>
+    <file>images/CashCard.png</file>
+    <file>images/CompetitionCard.png</file>
+    <file>images/GameOver.png</file>
+    <file>images/AndrewCarnegie.png</file>
+     <file>images/Apple.png</file>
+     <file>images/Facebook.png</file>
+      <file>images/Google.png</file>
+       <file>images/NetScape.png</file>
+        <file>images/SpaceX.png</file>
+         <file>images/Tinder.png</file>
+          <file>images/Twitter.png</file>
+           <file>images/Virgin.png</file>
+</qresource>
+</RCC>
